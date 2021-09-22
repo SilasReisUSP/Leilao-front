@@ -6,11 +6,13 @@ import { TextMaskModule } from 'angular2-text-mask';
 
 import { AppComponent } from './app.component';
 import { CadastroUsuarioComponent } from './cadastro/cadastro-usuario/cadastro-usuario.component';
+import { LoginUsuarioComponent } from './login-usuario/login-usuario.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CadastroUsuarioComponent
+    CadastroUsuarioComponent,
+    LoginUsuarioComponent
   ],
   imports: [
     BrowserModule,
