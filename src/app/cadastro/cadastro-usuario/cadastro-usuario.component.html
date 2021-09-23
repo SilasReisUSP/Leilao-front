@@ -1,0 +1,81 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="card form-group col-md-4 col-md-offset-5 align-center" >
+            <div class="card-body">
+                <div class="row">
+                    <h3>Cadastre-se</h3>
+                </div>
+                <form class="row g-3 align-items-center" [formGroup]="cadastroForm" (ngSubmit)="cadastrarUsuario()">
+                    <div class="col-md-12">
+                        <label for="Usuario" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="Usuario" required placeholder="Digite seu nome" formControlName="nome" [ngClass]="{ 'is-invalid': nome.errors && (nome.dirty || nome.touched)} ">
+                        <div *ngIf="nome.errors?.required && (nome.dirty || nome.touched)" class="text-danger" >
+                            <p>Preencha o Nome</p>
+                        </div>
+                        <div *ngIf="nome.errors?.minlength && (nome.dirty || nome.touched)" class="text-danger" >
+                            <p>Nome muito curto</p>
+                        </div>
+                        <div *ngIf="nome.errors?.maxlength && (nome.dirty || nome.touched)" class="text-danger" >
+                            <p>Nome muito longo</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="Apelido" class="form-label">Apelido de Usuário</label>
+                        <input type="text" class="form-control" id="Apelido" required placeholder="Digite seu apelido" formControlName="apelido" [ngClass]="{ 'is-invalid': apelido.errors && (apelido.dirty || apelido.touched)} ">
+                        <div *ngIf="apelido.errors?.required && (apelido.dirty || apelido.touched)" class="text-danger" >
+                            <p>Preencha o Apelido</p>
+                        </div>
+                        <div *ngIf="apelido.errors?.minlength && (apelido.dirty || apelido.touched)" class="text-danger" >
+                            <p>Apelido muito curto</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="Email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="Email" required placeholder="Digite seu email" formControlName="email" [ngClass]="{ 'is-invalid': email.errors && (email.dirty || email.touched) }">
+                        <div *ngIf="email.errors?.required && (email.dirty || email.touched)" class="text-danger" >
+                            <p>Preencha o E-mail</p>
+                        </div>
+                        <div *ngIf="email.errors?.email && (email.dirty || email.touched)" class="text-danger" >
+                            <p>E-mail inválido</p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="CPF" class="form-label">CPF</label>
+                        <input type="text" class="form-control" id="CPF" required placeholder="Digite seu CPF" formControlName="cpf" [ngClass]="{'is-invalid': cpf.errors && (cpf.dirty || cpf.touched)}" [textMask]="{ mask: MASKS.cpf.textMask}">
+                        <div *ngIf="cpf.errors?.required && (cpf.dirty || cpf.touched)" class="text-danger" >
+                            <p>Preencha o CPF</p>
+                        </div>
+                        <div *ngIf="cpf.errors?.cpf && (cpf.dirty || cpf.touched)" class="text-danger" >
+                            <p>CPF inválido</p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="Endereco" class="form-label">Endereco</label>
+                        <input type="text" class="form-control" id="Endereco" required placeholder="Digite seu endereço" formControlName="endereco" [ngClass]="{'is-invalid': endereco.errors && (endereco.dirty || endereco.touched)}">
+                        <div *ngIf="endereco.errors?.required && (endereco.dirty || endereco.touched)" class="text-danger" >
+                            <p>Preencha o Endereço</p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="Senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="Senha" required placeholder="Digite sua senha" formControlName="senha" [ngClass]="{'is-invalid': senha.errors && (senha.dirty || senha.touched)}">
+                        <div *ngIf="senha.errors?.required && (senha.dirty || senha.touched)" class="text-danger" >
+                            <p>Preencha a Senha</p>
+                        </div>
+                        <div *ngIf="senha.errors?.minlength && (senha.dirty || senha.touched)" class="text-danger" >
+                            <p>Senha muito curta</p>
+                        </div>
+                        <div *ngIf="senha.errors?.maxlength && (senha.dirty || senha.touched)" class="text-danger" >
+                            <p>Senha muito longa</p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" type="submit" [disabled]="!cadastroForm.valid">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
