@@ -5,7 +5,7 @@
                 <div class="row">
                     <h3>Cadastrar produto</h3>
                 </div>
-                <form class="row g-3 align-items-center" [formGroup]="cadastroForm" (ngSubmit)="cadastrarUsuario()">
+                <form class="row g-3 align-items-center" [formGroup]="cadastroPForm" (ngSubmit)="cadastrarProduto()">
                     <div class="col-md-12">
                         <label for="Produto" class="form-label">Título do produto</label>
                         <input type="text" class="form-control" id="produto" required placeholder="Digite o nome do produto" formControlName="produto" [ngClass]="{ 'is-invalid': produto.errors && (produto.dirty || produto.touched)} ">
@@ -22,14 +22,13 @@
                         </div>
                     </div>
 
-                    <div class "col-md-12">
+                    <div class="col-md-12">
                         <label for="LanceInicial" class="form-label">Lance Inicial</label>
-                        <input type="number" class="form-control" id="lanceInicial" required placeholder="Digite o lance inicial" formControlName="lanceInicial" [ngClass]="{'is-invalid': lanceInicial.errors && (lanceInicial.dirty || lanceInicial.touched)}">
-                        
+                        <input type="number" class="form-control" id="lanceInicial" required placeholder="Digite o lance inicial" formControlName="lanceInicial" [ngClass]="{'is-invalid': lanceInicial.errors && (lanceInicial.dirty || lanceInicial.touched)}">                
                     </div>
 
                     <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit" [disabled]="!cadastroForm.valid">Cadastrar</button>
+                        <button class="btn btn-primary" type="submit" [disabled]="!cadastroPForm.valid">Cadastrar</button>
                     </div>
                 </form>
             </div>
