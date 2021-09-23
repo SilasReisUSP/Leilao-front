@@ -11,20 +11,23 @@ import { Usuario } from 'src/app/interface/Usuario';
 })
 export class LoginUsuarioComponent implements OnInit {
 
-  cadastroForm: any
+  loginForm: any
 
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    // this.cadastroForm= new FormGroup({
-    //   apelido: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    //   email: new FormControl('', [Validators.required, Validators.email]),
-    //   senha: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(15)])
-    // });
+    this.loginForm= new FormGroup({
+       email: new FormControl('', [Validators.required, Validators.email]),
+       senha: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(15)])
+    });
   }
 
   fazerLogin(): void {
-    this.authService.fazerLogin(this.cadastroForm.value);
+    this.authService.fazerLogin(this.loginForm.value);
   }
+
+  get email() { return this.loginForm.get('email') }
+
+  get senha() { return this.loginForm.get('senha') }
 }

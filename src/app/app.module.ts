@@ -12,6 +12,7 @@ import { rootRouterConfig } from './app.routes';
 import { APP_BASE_HREF } from '@angular/common';
 import { FooterComponent } from './navegacao/footer/footer.component';
 import { HeaderComponent } from './navegacao/header/header.component';
+import { CadastroProdutoComponent } from './cadastro/cadastro-produto/cadastro-produto.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HeaderComponent } from './navegacao/header/header.component';
     CadastroUsuarioComponent,
     LoginUsuarioComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    CadastroProdutoComponent
   ],
   imports: [
     BrowserModule,

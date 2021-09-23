@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="card form-group col-md-4 col-md-offset-5 align-center" >
+            <div class="card-body">
+                <div class="row">
+                    <h3>Cadastrar produto</h3>
+                </div>
+                <form class="row g-3 align-items-center" [formGroup]="cadastroForm" (ngSubmit)="cadastrarUsuario()">
+                    <div class="col-md-12">
+                        <label for="Produto" class="form-label">Título do produto</label>
+                        <input type="text" class="form-control" id="produto" required placeholder="Digite o nome do produto" formControlName="produto" [ngClass]="{ 'is-invalid': produto.errors && (produto.dirty || produto.touched)} ">
+                        <div *ngIf="produto.errors?.required && (produto.dirty || produto.touched)" class="text-danger" >
+                            <p>Preencha o nome do produto</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="Localizacao" class="form-label">Localização</label>
+                        <input type="text" class="form-control" id="localizacao" required placeholder="Digite a localização" formControlName="localizacao" [ngClass]="{'is-invalid': localizacao.errors && (localizacao.dirty || localizacao.touched)}">
+                        <div *ngIf="localizacao.errors?.required && (localizacao.dirty || localizacao.touched)" class="text-danger" >
+                            <p>Preencha a localização</p>
+                        </div>
+                    </div>
+
+                    <div class "col-md-12">
+                        <label for="LanceInicial" class="form-label">Lance Inicial</label>
+                        <input type="number" class="form-control" id="lanceInicial" required placeholder="Digite o lance inicial" formControlName="lanceInicial" [ngClass]="{'is-invalid': lanceInicial.errors && (lanceInicial.dirty || lanceInicial.touched)}">
+                        
+                    </div>
+
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" type="submit" [disabled]="!cadastroForm.valid">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
