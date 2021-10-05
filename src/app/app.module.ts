@@ -10,7 +10,6 @@ import { LoginUsuarioComponent } from './login-usuario/login-usuario.component';
 import { RouterModule } from '@angular/router';
 import { rootRouterConfig } from './app.routes';
 import { APP_BASE_HREF } from '@angular/common';
-import { FooterComponent } from './navegacao/footer/footer.component';
 import { HeaderComponent } from './navegacao/header/header.component';
 import { CadastroProdutoComponent } from './cadastro/cadastro-produto/cadastro-produto.component';
 
@@ -19,7 +18,6 @@ import { CadastroProdutoComponent } from './cadastro/cadastro-produto/cadastro-p
     AppComponent,
     CadastroUsuarioComponent,
     LoginUsuarioComponent,
-    FooterComponent,
     HeaderComponent,
     CadastroProdutoComponent
   ],

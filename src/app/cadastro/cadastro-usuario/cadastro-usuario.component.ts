@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { NgBrazilValidators } from 'ng-brazil';
 import { utilsBr } from 'js-brasil';
-import { CadastroUsuarioService } from '../cadastro-usuario.service';
-import { Usuario } from 'src/app/interface/Usuario';
+import { CadastroUsuarioService } from '../../services/usuario.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2'
+
 
 
 @Component({
@@ -16,7 +18,8 @@ export class CadastroUsuarioComponent implements OnInit {
   cadastroForm: any
   MASKS = utilsBr.MASKS;
  
-  constructor(private cadastroUsuarioService: CadastroUsuarioService) { 
+  constructor(private cadastroUsuarioService: CadastroUsuarioService,
+              private routes: Router) { 
   }
   ngOnInit(): void {
 
@@ -31,7 +34,13 @@ export class CadastroUsuarioComponent implements OnInit {
   }
 
   cadastrarUsuario() : void {
-    this.cadastroUsuarioService.addUsuario(this.cadastroForm.value);
+    var resposta = this.cadastroUsuarioService.addUsuario(this.cadastroForm.value);
+    resposta.subscribe(resultado => this.routes.navigate(['/Login']), 
+                       erro =>  Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Erro ao contatar o servidor!'
+                      }))
   }
 
   get nome() { return this.cadastroForm.get('nome') }
