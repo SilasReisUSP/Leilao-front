@@ -8,5 +8,5 @@ export const rootRouterConfig: Routes = [
     { path: '', redirectTo: '/Cadastro', pathMatch: 'full'},
     { path: 'Login', component: LoginUsuarioComponent},
     { path: 'Cadastro', component: CadastroUsuarioComponent},
-    { path: 'Cadastro Produto', component: CadastroProdutoComponent},
+    { path: 'CadastroProduto', component: CadastroProdutoComponent},
 ]

@@ -35,11 +35,18 @@ export class CadastroUsuarioComponent implements OnInit {
 
   cadastrarUsuario() : void {
     var resposta = this.cadastroUsuarioService.addUsuario(this.cadastroForm.value);
-    resposta.subscribe(resultado => this.routes.navigate(['/Login']), 
+    resposta.subscribe(resultado => {
+                        Swal.fire({
+                           icon: 'success',
+                             title: 'Sucesso',
+                             text: "Usuário cadastro com sucesso"
+                         });
+                        this.routes.navigate(['/Login'])
+                        }, 
                        erro =>  Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Erro ao contatar o servidor!'
+                        text: erro.error.message
                       }))
   }
 

@@ -20,6 +20,6 @@ export class CadastroUsuarioService {
   constructor(private http: HttpClient) { }
 
   addUsuario(usuario: Usuario) : Observable<Usuario> {
-    return this.http.post<Usuario>(this.usuarioUrl, usuario, httpOptions);
+    return this.http.post<Usuario>(this.usuarioUrl, usuario, httpOptions).pipe();
   }
 }

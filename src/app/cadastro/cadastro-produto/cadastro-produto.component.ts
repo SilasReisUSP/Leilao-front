@@ -5,7 +5,8 @@ import { CadastroProdutoService } from '../../services/produto.service';
 
 @Component({
   selector: 'app-cadastro-produto',
-  templateUrl: './cadastro-produto.component.html'
+  templateUrl: './cadastro-produto.component.html',
+  providers: [CadastroProdutoService]
 })
 export class CadastroProdutoComponent implements OnInit {
 
