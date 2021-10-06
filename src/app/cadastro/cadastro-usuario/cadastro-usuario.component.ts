@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { NgBrazilValidators } from 'ng-brazil';
 import { utilsBr } from 'js-brasil';
-import { CadastroUsuarioService } from '../../services/usuario.service';
+import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
 
@@ -11,14 +11,14 @@ import Swal from 'sweetalert2'
 @Component({
   selector: 'app-cadastro-usuario',
   templateUrl: './cadastro-usuario.component.html',
-  providers: [CadastroUsuarioService]
+  providers: [UsuarioService]
 })
 export class CadastroUsuarioComponent implements OnInit {
 
   cadastroForm: any
   MASKS = utilsBr.MASKS;
  
-  constructor(private cadastroUsuarioService: CadastroUsuarioService,
+  constructor(private cadastroUsuarioService: UsuarioService,
               private routes: Router) { 
   }
   ngOnInit(): void {

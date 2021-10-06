@@ -8,22 +8,19 @@
                 <form class="row g-3 align-items-center" [formGroup]="loginForm">
                     <div class="col-md-12">
                         <label for="Email" class="form-label">E-mail</label>
-                        <input type="email" class="form-control" id="Email" required placeholder="Digite seu e-mail" formControlName="email" [ngClass]="{ 'is-invalid': email.errors && (email.dirty || email.touched) }">
-                        <div *ngIf="email.errors?.required && (email.dirty || email.touched)" class="text-danger" >
-                            <p>Preencha o E-mail</p>
-                        </div>
+                        <input type="email" class="form-control" id="Email" required placeholder="Digite seu e-mail" formControlName="email">
                     </div>
 
                     <div class="col-md-12">
                         <label for="Senha" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="Senha" required placeholder="Digite sua senha" formControlName="senha" [ngClass]="{'is-invalid': senha.errors && (senha.dirty || senha.touched)}">
-                        <div *ngIf="senha.errors?.required && (senha.dirty || senha.touched)" class="text-danger" >
-                            <p>Preencha a Senha</p>
+                        <input type="password" class="form-control" id="Senha" required placeholder="Digite sua senha" formControlName="senha">
+                        <div *ngIf="errorMessage" class="text-danger">
+                            <p>{{errorMessage}}</p>
                         </div>
                     </div>
                 
                     <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit" [disabled] = "!loginForm.valid">Fazer login</button>
+                        <button class="btn btn-primary" type="submit" (click)="fazerLogin()">Fazer login</button>
                     </div>                  
                 </form>
             </div>

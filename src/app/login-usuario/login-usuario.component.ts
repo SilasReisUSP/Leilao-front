@@ -1,33 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
-import { AuthService } from './auth.service';
-import { Usuario } from 'src/app/interface/Usuario';
+import { UsuarioService } from '../services/usuario.service';
+import { Router } from '@angular/router';
 
 
 
 @Component({
   selector: 'app-login-usuario',
-  templateUrl: './login-usuario.component.html'
+  templateUrl: './login-usuario.component.html',
+  providers: [UsuarioService]
 })
 export class LoginUsuarioComponent implements OnInit {
 
   loginForm: any
+  errorMessage!: string
 
-
-  constructor(private authService: AuthService) { }
+  constructor(private usuarioService: UsuarioService,
+              private routes: Router) { }
 
   ngOnInit(): void {
     this.loginForm= new FormGroup({
-       email: new FormControl('', [Validators.required, Validators.email]),
-       senha: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(15)])
+       email: new FormControl(''),
+       senha: new FormControl('')
     });
   }
 
   fazerLogin(): void {
-    this.authService.fazerLogin(this.loginForm.value);
+    this.usuarioService.fazerLogin(this.loginForm.get('email'),this.loginForm.get('senha')).subscribe(
+      resultado => {
+        localStorage.setItem('token', resultado.token)
+        localStorage.setItem('usuario', resultado.Usuario)
+        this.routes.navigate(['/Home'])
+      },
+      error =>  {
+        if(error.message.error)
+          this.errorMessage = error.message.error
+        else
+          this.errorMessage = "Erro ao contatar o servidor"
+      }
+    );
   }
-
-  get email() { return this.loginForm.get('email') }
-
-  get senha() { return this.loginForm.get('senha') }
 }

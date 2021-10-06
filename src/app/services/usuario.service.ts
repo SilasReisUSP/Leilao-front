@@ -13,13 +13,17 @@ const httpOptions = {
 }
 
 @Injectable()
-export class CadastroUsuarioService {
+export class UsuarioService {
 
-  usuarioUrl = 'http://localhost:2828/cadastro'
+  usuarioUrl = 'http://localhost:2828/'
 
   constructor(private http: HttpClient) { }
 
   addUsuario(usuario: Usuario) : Observable<Usuario> {
-    return this.http.post<Usuario>(this.usuarioUrl, usuario, httpOptions).pipe();
+    return this.http.post<Usuario>(this.usuarioUrl+"cadastro", usuario, httpOptions).pipe();
+  }
+
+  fazerLogin(email: string, senha: string) : Observable<any>{
+    return this.http.post<Usuario>(this.usuarioUrl+"login", {email, senha}, httpOptions).pipe();
   }
 }
