@@ -5,21 +5,25 @@
                 <div class="row">
                     <h3>Fazer login</h3>
                 </div>
-                <!-- aqui tem o form -->
-                <div class="col-md-12">
-                    <label for="Email" class="form-label">E-mail</label>
-                    <input  type="email" class="form-control" id="Email" required placeholder="Digite seu e-mail" >
+                <form class="row g-3 align-items-center" [formGroup]="loginForm">
+                    <div class="col-md-12">
+                        <label for="Email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="Email" required placeholder="Digite seu e-mail" formControlName="email">
+                    </div>
 
-                </div>
-
-                <div class="col-md-12">
-                    <label for="Senha" class="form-label">Senha</label>
-                    <input type="password" class="form-control" id="Senha" required placeholder="Digite sua senha" >
-                </div>
+                    <div class="col-md-12">
+                        <label for="Senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="Senha" required placeholder="Digite sua senha" formControlName="senha">
+                        <div *ngIf="errorMessage" class="text-danger">
+                            <p>{{errorMessage}}</p>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" type="submit" (click)="fazerLogin()">Fazer login</button>
+                    </div>                  
+                </form>
             </div>
-            
-            <div class="col-md-12">
-                <button class="btn btn-primary" type="submit" >Fazer login</button>
-            </div>
+        </div>
     </div>
 </div>

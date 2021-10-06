@@ -6,11 +6,19 @@
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navPrincipal">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/Cadastro']">Cadastro</a>
+          <!--TAGS USUARIO DESLOGADO-->
+          <li class="nav-item" *ngIf="token == null">
+            <a class="nav-link" [routerLink]="['/Cadastro']" >Cadastro</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/Login']">Login</a>
+          <li class="nav-item" *ngIf="token == null">
+            <a class="nav-link" [routerLink]="['/Login']" >Login</a>
+          </li>
+          <!--TAGS USUARIO LOGADO-->
+          <li class="nav-item" *ngIf="token != null">
+            <a class="nav-link" [routerLink]="['/CadastroProduto']">Cadastro Produto</a>
+          </li>
+          <li class="nav-item" *ngIf="token != null">
+            <a class="nav-link" (click)="sair()">Sair</a>
           </li>
         </ul>
       </div>
