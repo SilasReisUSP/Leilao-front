@@ -17,7 +17,7 @@ export class SocketioService {
     this.socket.emit('message', message);
   }
 
-  joinRoom(name: string, room: string) {
+  joinRoom(username: string, room: string) {
     this.socket.emit('joinRoom', { username, room }, (messages: any[]) => {
       return messages;
     });
