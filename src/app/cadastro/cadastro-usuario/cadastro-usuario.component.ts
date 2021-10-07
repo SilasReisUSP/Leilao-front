@@ -31,6 +31,8 @@ export class CadastroUsuarioComponent implements OnInit {
       endereco: new FormControl('', [Validators.required]),
       senha: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(15)])
     });
+
+    
   }
 
   cadastrarUsuario() : void {

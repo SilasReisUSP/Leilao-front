@@ -13,6 +13,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HeaderComponent } from './navegacao/header/header.component';
 import { CadastroProdutoComponent } from './cadastro/cadastro-produto/cadastro-produto.component';
 import { HomeComponent } from './home/home.component';
+import { SocketioService } from './services/socketio.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { HomeComponent } from './home/home.component';
     [RouterModule.forRoot(rootRouterConfig, {useHash: false})]
   ],
   providers: [
-    {provide: APP_BASE_HREF, useValue: '/'}
+    {provide: APP_BASE_HREF, useValue: '/'},
+    SocketioService
   ],
   bootstrap: [AppComponent]
 })
