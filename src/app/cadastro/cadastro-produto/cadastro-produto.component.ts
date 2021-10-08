@@ -23,6 +23,12 @@ export class CadastroProdutoComponent implements OnInit {
   cadastrarProduto() : void {
     this.cadastroProdutoService.addProduto(this.cadastroPForm.value);
   }
+
+//  anexarFoto(event){
+    //if(event.target.files && event.target.files[0]){
+
+    //}
+ // }
   get produto() { return this.cadastroPForm.get('produto') }
 
   get localizacao() { return this.cadastroPForm.get('localizacao')}

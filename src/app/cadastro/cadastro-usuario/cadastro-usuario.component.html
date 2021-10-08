@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-md-12">
                         <label for="Senha" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="Senha" required placeholder="Digite sua senha" formControlName="senha" [ngClass]="{'is-invalid': senha.errors && (senha.dirty || senha.touched)}">
+                        <input type="password" class="form-control" id="Senha" required placeholder="Senha de 6 a 15 caracteres" formControlName="senha" [ngClass]="{'is-invalid': senha.errors && (senha.dirty || senha.touched)}">
                         <div *ngIf="senha.errors?.required && (senha.dirty || senha.touched)" class="text-danger" >
                             <p>Preencha a Senha</p>
                         </div>

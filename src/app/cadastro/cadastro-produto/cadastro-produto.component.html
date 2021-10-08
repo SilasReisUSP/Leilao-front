@@ -3,14 +3,14 @@
         <div class="card form-group col-md-4 col-md-offset-5 align-center" >
             <div class="card-body">
                 <div class="row">
-                    <h3>Cadastrar produto</h3>
+                    <h3>Cadastrar leilão</h3>
                 </div>
                 <form class="row g-3 align-items-center" [formGroup]="cadastroPForm" (ngSubmit)="cadastrarProduto()">
                     <div class="col-md-12">
-                        <label for="Produto" class="form-label">Título do produto</label>
-                        <input type="text" class="form-control" id="Produto" required placeholder="Digite o nome do produto" formControlName="produto" [ngClass]="{ 'is-invalid': produto.errors && (produto.dirty || produto.touched)} ">
+                        <label for="Produto" class="form-label">Título do leilão</label>
+                        <input type="text" class="form-control" id="Produto" required placeholder="Digite o nome do leilão" formControlName="produto" [ngClass]="{ 'is-invalid': produto.errors && (produto.dirty || produto.touched)} ">
                         <div *ngIf="produto.errors?.required && (produto.dirty || produto.touched)" class="text-danger" >
-                            <p>Preencha o nome do produto</p>
+                            <p>Preencha o nome do leilão</p>
                         </div>
                     </div>
 
@@ -24,7 +24,26 @@
 
                     <div class = "col-md-12">
                         <label for="LanceInicial" class="form-label">Lance Inicial</label>
-                        <input type="number" class="form-control" id="lanceInicial" required placeholder="Digite o lance inicial" formControlName="lanceInicial" [ngClass]="{'is-invalid': lanceInicial.errors && (lanceInicial.dirty || lanceInicial.touched)}">
+                        <input type="number" class="form-control" id="lanceInicial" required placeholder="Digite o valor do lance inicial" formControlName="lanceInicial" [ngClass]="{'is-invalid': lanceInicial.errors && (lanceInicial.dirty || lanceInicial.touched)}">
+                        <div *ngIf="lanceInicial.errors?.required && (lanceInicial.dirty || lanceInicial.touched)" class="text-danger" >
+                            <p>Preencha o valor do lance inicial</p>
+                        </div>
+                    </div>
+
+                    <div class = "col-md-12">
+                        <label for="data inicial">Informe a data de início do leilão</label>
+                        <input id="dataInicial" type="datetime-local" name="dataInicial" value="2021-06-01T08:30" required>
+
+                    </div>
+                    
+                    <div class = "col-md-12">
+                        <label for="data final">Informe a data do término do leilão</label>
+                        <input id="data-final" type="datetime-local" name="data-final" value="2021-06-01T08:30" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fotoLeilao">Insira a foto do leilão</label>
+                        <input type="file" class="form-control-file" id="fotoLeilao"> <! (change)="anexarFoto($event)" >
                     </div>
 
                     <div class="col-md-12">
