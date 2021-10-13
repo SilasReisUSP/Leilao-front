@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
+import { MessageResponse, SendMessage } from '../chat/types';
 
 @Injectable({
   providedIn: 'root'
@@ -9,27 +11,45 @@ export class SocketioService {
 
   private socket: Socket;
 
-  constructor() {
+  constructor() {}
+
+  connect() {
     this.socket = io(environment.SOCKET_ENDPOINT);
   }
 
-  sendMessage(message: string) {
-    this.socket.emit('message', message);
+  async joinRoom(username: string, room: string): Promise<MessageResponse[]> {
+    return new Promise((resolve) => {
+      this.socket.emit('joinRoom', { username, room }, (messages: MessageResponse[]) => {
+        resolve(messages);
+      })
+    });
+    // let roomMessages: MessageResponse[] = [];
+    
+    //   console.log('messages', messages);
+    //   roomMessages = messages;
+    //   return messages; 
+    // });
   }
 
-  joinRoom(username: string, room: string) {
-    this.socket.emit('joinRoom', { username, room }, (messages: any[]) => {
-      return messages;
+  sendMessage(data: SendMessage) {
+    this.socket.emit('message', data);
+  }
+
+  receiveJoinRoom() {
+    return new Observable<string>((observer) => {
+      this.socket.on('joinRoom', (message) => {
+        console.log('dsds',message );
+        observer.next(message);
+      });
     });
   }
 
-  setupSocketConnection() {
-    this.socket.emit('my message', 'Hello there from Angular.');
-
-
-
-    this.socket.on('my broadcast', (data: string) => {
-      console.log(data);
+  receiveMessages() {
+    return new Observable<MessageResponse>((observer) => {
+      this.socket.on('message', (message) => {
+        console.log('message', message);
+        observer.next(message);
+      });
     });
   }
 

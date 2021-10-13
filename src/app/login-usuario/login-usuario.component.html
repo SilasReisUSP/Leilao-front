@@ -5,7 +5,7 @@
                 <div class="row">
                     <h3>Fazer login</h3>
                 </div>
-                <form class="row g-3 align-items-center" [formGroup]="loginForm">
+                <form class="row g-3 align-items-center" [formGroup]="loginForm" (ngSubmit)="fazerLogin()">
                     <div class="col-md-12">
                         <label for="Email" class="form-label">E-mail</label>
                         <input type="email" class="form-control" id="Email" required placeholder="Digite seu e-mail" formControlName="email">
@@ -20,7 +20,7 @@
                     </div>
                 
                     <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit" (click)="fazerLogin()">Fazer login</button>
+                        <button class="btn btn-primary" type="submit">Fazer login</button>
                     </div>       
                     
                     <p class="col-md-12"> Ainda não tem uma conta? 

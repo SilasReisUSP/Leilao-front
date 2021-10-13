@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-
   constructor(private routes: Router) { }
 
   ngOnInit(): void {
@@ -14,5 +13,4 @@ export class HomeComponent implements OnInit {
       this.routes.navigate(['/Login']);
     }
   }
-
 }

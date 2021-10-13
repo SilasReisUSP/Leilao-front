@@ -26,13 +26,17 @@ export class LoginUsuarioComponent implements OnInit {
   }
 
   fazerLogin(): void {
-    this.usuarioService.fazerLogin(this.loginForm.get('email'),this.loginForm.get('senha')).subscribe(
-      resultado => {
+    const email = this.loginForm.get('email').value;
+    const senha = this.loginForm.get('senha').value;
+    console.log('senha', this.loginForm.get('senha'));
+    this.usuarioService.fazerLogin(email,senha)
+      .subscribe(resultado => {
         localStorage.setItem('token', resultado.token)
         localStorage.setItem('usuario', resultado.Usuario)
         this.routes.navigate(['/Home'])
       },
       error =>  {
+        console.log('sds', error);
         if(error.message.error)
           this.errorMessage = error.message.error
         else
