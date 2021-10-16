@@ -16,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { SocketioService } from './services/socketio.service';
 import { ChatComponent } from './chat/chat.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { UsuarioService } from './services/usuario.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   ],
   providers: [
     {provide: APP_BASE_HREF, useValue: '/'},
-    SocketioService
+    SocketioService,
+    UsuarioService
   ],
   bootstrap: [AppComponent]
 })

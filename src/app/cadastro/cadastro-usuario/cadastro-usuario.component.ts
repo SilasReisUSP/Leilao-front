@@ -10,8 +10,7 @@ import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-cadastro-usuario',
-  templateUrl: './cadastro-usuario.component.html',
-  providers: [UsuarioService]
+  templateUrl: './cadastro-usuario.component.html'
 })
 export class CadastroUsuarioComponent implements OnInit {
 
@@ -45,10 +44,10 @@ export class CadastroUsuarioComponent implements OnInit {
                          });
                         this.routes.navigate(['/Login'])
                         }, 
-                       erro =>  Swal.fire({
+                       erro => Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: erro.error.message
+                        text: erro.error.error
                       }))
   }
 

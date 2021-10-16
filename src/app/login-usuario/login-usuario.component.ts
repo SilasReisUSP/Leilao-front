@@ -7,8 +7,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-usuario',
-  templateUrl: './login-usuario.component.html',
-  providers: [UsuarioService]
+  templateUrl: './login-usuario.component.html'
 })
 export class LoginUsuarioComponent implements OnInit {
 
@@ -28,17 +27,14 @@ export class LoginUsuarioComponent implements OnInit {
   fazerLogin(): void {
     const email = this.loginForm.get('email').value;
     const senha = this.loginForm.get('senha').value;
-    console.log('senha', this.loginForm.get('senha'));
     this.usuarioService.fazerLogin(email,senha)
       .subscribe(resultado => {
-        localStorage.setItem('token', resultado.token)
-        localStorage.setItem('usuario', resultado.Usuario)
+        this.usuarioService.armazenarDadosLogin(resultado.token, resultado.usuarioCadastrado)
         this.routes.navigate(['/Home'])
       },
       error =>  {
-        console.log('sds', error);
-        if(error.message.error)
-          this.errorMessage = error.message.error
+        if(error.error)
+          this.errorMessage = error.error.error
         else
           this.errorMessage = "Erro ao contatar o servidor"
       }

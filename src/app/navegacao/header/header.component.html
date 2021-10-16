@@ -7,17 +7,17 @@
       <div class="collapse navbar-collapse justify-content-end" id="navPrincipal">
         <ul class="navbar-nav ml-auto">
           <!--TAGS USUARIO DESLOGADO-->
-          <li class="nav-item" *ngIf="token == null">
+          <li class="nav-item" *ngIf="token == ''">
             <a class="nav-link" [routerLink]="['/Cadastro']" >Cadastro</a>
           </li>
-          <li class="nav-item" *ngIf="token == null">
+          <li class="nav-item" *ngIf="token == ''">
             <a class="nav-link" [routerLink]="['/Login']" >Login</a>
           </li>
           <!--TAGS USUARIO LOGADO-->
-          <li class="nav-item" *ngIf="token != null">
+          <li class="nav-item" *ngIf="token != ''">
             <a class="nav-link" [routerLink]="['/CadastroProduto']">Cadastro Produto</a>
           </li>
-          <li class="nav-item" *ngIf="token != null">
+          <li class="nav-item" *ngIf="token != ''">
             <a class="nav-link" (click)="sair()">Sair</a>
           </li>
         </ul>

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-import { Usuario } from '../interface/Usuario';
+import { Usuario } from '../models/Usuario';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -15,7 +15,13 @@ const httpOptions = {
 @Injectable()
 export class UsuarioService {
 
-  usuarioUrl = 'http://localhost:2828/'
+  private usuarioUrl = 'http://localhost:2828/'
+  
+  private tokenSource = new BehaviorSubject('');
+  token = this.tokenSource.asObservable();
+  usuarioteste: Usuario
+  private usuarioSource = new BehaviorSubject<Usuario>(new Usuario());
+  usuario = this.usuarioSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -25,5 +31,10 @@ export class UsuarioService {
 
   fazerLogin(email: string, senha: string) : Observable<any>{
     return this.http.post<Usuario>(this.usuarioUrl+"login", {email, senha}, httpOptions).pipe();
+  }
+
+  armazenarDadosLogin(token: string, usuarioLogado: Usuario) {
+    this.tokenSource.next(token);
+    this.usuarioSource.next(usuarioLogado);
   }
 }

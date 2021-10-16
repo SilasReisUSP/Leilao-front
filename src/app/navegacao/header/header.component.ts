@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Usuario } from 'src/app/models/Usuario';
+import { UsuarioService } from '../../services/usuario.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html'
@@ -8,17 +11,16 @@ export class HeaderComponent implements OnInit {
 
   token!: string | null;
   
-  constructor(private routes: Router) { }
+  constructor(private routes: Router, private usuarioService: UsuarioService ) { }
   
   ngOnInit(): void {
-    this.token = localStorage.getItem("token");
+    this.usuarioService.token.subscribe(valor => this.token = valor);
   }
 
   sair() {
-    localStorage.removeItem("token")
-    localStorage.removeItem("usuario")
+    this.usuarioService.armazenarDadosLogin('', new Usuario());
     this.routes.navigate(['/Login'])
-    
   }
+
 
 }
