@@ -11,9 +11,12 @@ const httpOptions = {
   })
 }
 export interface Produto{
-  produto: string;
+  leilao: string;
   localizacao: string;
   lanceInicial: number;
+  dataInicial: Date;
+  dataFinal: Date;
+  fotoLeilao: File;
 }
 
 @Injectable()

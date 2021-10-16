@@ -7,9 +7,9 @@
                 </div>
                 <form class="row g-3 align-items-center" [formGroup]="cadastroPForm" (ngSubmit)="cadastrarProduto()">
                     <div class="col-md-12">
-                        <label for="Produto" class="form-label">Título do leilão</label>
-                        <input type="text" class="form-control" id="Produto" required placeholder="Digite o nome do leilão" formControlName="produto" [ngClass]="{ 'is-invalid': produto.errors && (produto.dirty || produto.touched)} ">
-                        <div *ngIf="produto.errors?.required && (produto.dirty || produto.touched)" class="text-danger" >
+                        <label for="leilao" class="form-label">Título do leilão</label>
+                        <input type="text" class="form-control" id="leilao" required placeholder="Digite o nome do leilão" formControlName="leilao" [ngClass]="{ 'is-invalid': leilao.errors && (leilao.dirty || leilao.touched)} ">
+                        <div *ngIf="leilao.errors?.required && (leilao.dirty || leilao.touched)" class="text-danger" >
                             <p>Preencha o nome do leilão</p>
                         </div>
                     </div>
@@ -31,23 +31,23 @@
                     </div>
 
                     <div class = "col-md-12">
-                        <label for="data inicial">Informe a data de início do leilão</label>
+                        <label for="data inicial">Informe a data e horário de início do leilão</label>
                         <input id="dataInicial" type="datetime-local" name="dataInicial" value="2021-06-01T08:30" required>
 
                     </div>
                     
                     <div class = "col-md-12">
-                        <label for="data final">Informe a data do término do leilão</label>
+                        <label for="data final">Informe a data e horário do término do leilão</label>
                         <input id="data-final" type="datetime-local" name="data-final" value="2021-06-01T08:30" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="fotoLeilao">Insira a foto do leilão</label>
-                        <input type="file" class="form-control-file" id="fotoLeilao"> <! (change)="anexarFoto($event)" >
+                        <input type="file" class="form-control-file" id="fotoLeilao" (change)="anexarFoto($event)" >
                     </div>
 
                     <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit" [disabled]="!cadastroPForm.valid">Cadastrar</button>
+                        <button class="btn btn-primary" type="submit" (click)="onUpload()" [disabled]="!cadastroPForm.valid">Cadastrar</button>
                     </div>
                 </form>
             </div>
