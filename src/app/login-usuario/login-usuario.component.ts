@@ -13,6 +13,7 @@ export class LoginUsuarioComponent implements OnInit {
 
   loginForm: any
   errorMessage!: string
+  token: string
 
   constructor(private usuarioService: UsuarioService,
               private routes: Router) { }
@@ -22,20 +23,23 @@ export class LoginUsuarioComponent implements OnInit {
        email: new FormControl(''),
        senha: new FormControl('')
     });
+    this.usuarioService.token.subscribe(valor => this.token = valor);
+    if(this.token != '')
+      this.routes.navigate(['/Home'])
   }
 
   fazerLogin(): void {
     const email = this.loginForm.get('email').value;
     const senha = this.loginForm.get('senha').value;
     this.usuarioService.fazerLogin(email,senha)
-      .subscribe(resultado => {
-        this.usuarioService.armazenarDadosLogin(resultado.token, resultado.usuarioCadastrado)
-        localStorage.setItem('token', resultado.token)
+      .subscribe(rst => {
+        this.usuarioService.armazenarDadosLogin('Bearer '+rst.token)
+        localStorage.setItem('token', 'Bearer '+rst.token)
         this.routes.navigate(['/Home'])
       },
-      error =>  {
-        if(error.error)
-          this.errorMessage = error.error.error
+      rst =>  {
+        if(rst.error)
+          this.errorMessage = rst.error
         else
           this.errorMessage = "Erro ao contatar o servidor"
       }

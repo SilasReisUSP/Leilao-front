@@ -4,26 +4,25 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-}
-export interface Produto{
-  produto: string;
-  localizacao: string;
-  lanceInicial: number;
-}
+import { Produto } from '../models/Produto';
 
 @Injectable()
-export class CadastroProdutoService {
+export class ProdutoService {
 
-  produtoUrl = 'http://localhost:2828/cadastro-produto'
+  produtoUrl = 'http://localhost:2828/'
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  }
 
   constructor(private http: HttpClient) { }
+    
 
-  addProduto(produto: Produto) : Promise<Produto> {
-    return this.http.post<Produto>(this.produtoUrl, produto, httpOptions).toPromise()
+  addProduto(produto: Produto, token: string) : Observable<any> {
+    if(!this.httpOptions.headers.has('Authorization'))
+      this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
+    return this.http.post(this.produtoUrl+"products", produto, this.httpOptions)
   }
 }

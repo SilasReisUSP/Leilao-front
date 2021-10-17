@@ -19,13 +19,10 @@ export class UsuarioService {
   
   private tokenSource = new BehaviorSubject('');
   token = this.tokenSource.asObservable();
-  usuarioteste: Usuario
-  private usuarioSource = new BehaviorSubject<Usuario>(new Usuario());
-  usuario = this.usuarioSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  addUsuario(usuario: Usuario) : Observable<Usuario> {
+  addUsuario(usuario: Usuario) : Observable<any> {
     return this.http.post<Usuario>(this.usuarioUrl+"cadastro", usuario, httpOptions).pipe();
   }
 
@@ -33,8 +30,7 @@ export class UsuarioService {
     return this.http.post<Usuario>(this.usuarioUrl+"login", {email, senha}, httpOptions).pipe();
   }
 
-  armazenarDadosLogin(token: string, usuarioLogado: Usuario) {
+  armazenarDadosLogin(token: string) {
     this.tokenSource.next(token);
-    this.usuarioSource.next(usuarioLogado);
   }
 }

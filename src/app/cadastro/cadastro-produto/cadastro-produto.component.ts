@@ -1,61 +1,81 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
-import { CadastroProdutoService } from '../../services/produto.service';
+import { ProdutoService } from '../../services/produto.service';
+import { UsuarioService } from '../../services/usuario.service';
+
 import { Router } from '@angular/router';
 import { CustomValidators } from 'ng2-validation';
 import { utilsBr } from 'js-brasil';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-cadastro-produto',
-  templateUrl: './cadastro-produto.component.html',
-  providers: [CadastroProdutoService]
+  templateUrl: './cadastro-produto.component.html'
 })
 export class CadastroProdutoComponent implements OnInit {
 
   cadastroPForm: any
   MASKS = utilsBr.MASKS;
   mensagemAnexoFoto!: string;
+  token!: string;
 
-  constructor(private routes: Router, private cadastroProdutoService: CadastroProdutoService) { }
+  constructor(private routes: Router, private cadastroProdutoService: ProdutoService,
+     private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
+
+    this.usuarioService.token.subscribe(valor => this.token = valor);
+
     //Validando se o usuario esta logado
-    if(localStorage.getItem('token') == null) {
+    if(this.token == '') {
       this.routes.navigate(['/Login']);
     }
     
     //criando as regrada das datas, elas nao foram criadas dentro do FormGroup
-    //porque a dataTermino depende da dataInicio
+    //porque a dataFinal depende da dataInicio
     let dataInicio = new FormControl(new Date().toISOString().slice(0,16), 
         [Validators.required,
         CustomValidators.minDate(new Date()),
         CustomValidators.maxDate(new Date().setMonth(new Date().getMonth() + 10))]);
 
-    let dataTermino = new FormControl(new Date().toISOString().slice(0,16), 
+    let dataFinal = new FormControl(new Date().toISOString().slice(0,16), 
         [Validators.required, 
-        CustomValidators.minDate(new Date(dataInicio.value+":00")),
+        CustomValidators.minDate(new Date()),
         CustomValidators.maxDate(new Date().setMonth(new Date().getMonth() + 10))]);
 
     this.cadastroPForm= new FormGroup({
 
-      produto: new FormControl('', [Validators.required, Validators.minLength(2), 
+      nome: new FormControl('', [Validators.required, Validators.minLength(2), 
                                     Validators.maxLength(50)]),
 
       localizacao: new FormControl('', [Validators.required]),
 
-      lanceInicial: new FormControl('',[Validators.required, Validators.min(1), 
+      valorInicial: new FormControl('',[Validators.required, Validators.min(1), 
                                     Validators.max(1000000)]),
       dataInicio: dataInicio,
 
-      dataTermino: dataTermino,
+      dataFinal: dataFinal,
 
       fotoLeilao: new FormControl('', [Validators.required])
     });
   }
   cadastrarProduto() : void {
-    
-    this.cadastroProdutoService.addProduto(this.cadastroPForm.value);
-    
+    this.cadastroProdutoService.addProduto(this.cadastroPForm.value, this.token)
+    .subscribe(rst => {
+      Swal.fire({
+          icon: 'success',
+           title: 'Sucesso',
+           text: rst.message
+       });
+      this.routes.navigate(['/Home'])
+      }, 
+      rst =>{
+       Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: rst.error
+      })
+    })
   }
 
  anexarFoto(event: any){
@@ -73,14 +93,22 @@ export class CadastroProdutoComponent implements OnInit {
   else
     this.mensagemAnexoFoto = "Nenhum arquivo escolhido";
  }
-  get produto() { return this.cadastroPForm.get('produto') }
+
+ formatarValorFinal() {
+  let teste = this.cadastroPForm.get('valorInicial').value;
+  if(!this.cadastroPForm.get('valorInicial').value.includes(',') && this.cadastroPForm.get('valorInicial').value != '') {
+    this.cadastroPForm.get('valorInicial').setValue(this.cadastroPForm.get('valorInicial').value + ',00')
+  }
+    
+ }
+  get nome() { return this.cadastroPForm.get('nome') }
 
   get localizacao() { return this.cadastroPForm.get('localizacao')}
 
-  get lanceInicial() { return this.cadastroPForm.get('lanceInicial')}
+  get valorInicial() { return this.cadastroPForm.get('valorInicial')}
 
   get dataInicio() { return this.cadastroPForm.get('dataInicio') }
 
-  get dataTermino() { return this.cadastroPForm.get('dataTermino') }
+  get dataFinal() { return this.cadastroPForm.get('dataFinal') }
     
 }

@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-  constructor(private routes: Router) { }
+  token: String
+  
+  constructor(private routes: Router, private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('token') == null) {
+
+    this.usuarioService.token.subscribe(valor => this.token = valor)
+
+    if(this.token == '') {
       this.routes.navigate(['/Login']);
     }
   }
