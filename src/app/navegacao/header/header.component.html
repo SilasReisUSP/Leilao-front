@@ -15,6 +15,10 @@
           </li>
           <!--TAGS USUARIO LOGADO-->
           <li class="nav-item" *ngIf="token != ''">
+            <a class="nav-link" [routerLink]="['/Home']">Home</a>
+          </li>
+
+          <li class="nav-item" *ngIf="token != ''">
             <a class="nav-link" [routerLink]="['/CadastroProduto']">Cadastro Produto</a>
           </li>
           <li class="nav-item" *ngIf="token != ''">

@@ -25,4 +25,10 @@ export class ProdutoService {
       this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
     return this.http.post(this.produtoUrl+"products", produto, this.httpOptions)
   }
+
+  getProdutos(token: string) : Observable<any> {
+    if(!this.httpOptions.headers.has('Authorization'))
+      this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
+    return this.http.get(this.produtoUrl+"products", this.httpOptions)
+  }
 }

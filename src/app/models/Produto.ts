@@ -1,5 +1,8 @@
 export class Produto{
-    produto: string;
+    nome: string;
     localizacao: string;
-    lanceInicial: number;
+    valorInicial: string;
+    dataInicio: Date;
+    dataFinal: Date;
+    fotoLeilao: Blob[];
   }
