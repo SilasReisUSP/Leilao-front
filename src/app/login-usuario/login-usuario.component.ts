@@ -30,6 +30,7 @@ export class LoginUsuarioComponent implements OnInit {
     this.usuarioService.fazerLogin(email,senha)
       .subscribe(resultado => {
         this.usuarioService.armazenarDadosLogin(resultado.token, resultado.usuarioCadastrado)
+        localStorage.setItem('token', resultado.token)
         this.routes.navigate(['/Home'])
       },
       error =>  {

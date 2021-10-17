@@ -7,7 +7,7 @@ import { ChatComponent } from './chat/chat.component';
 
 
 export const rootRouterConfig: Routes = [
-    { path: '', redirectTo: '/Cadastro', pathMatch: 'full'},
+    { path: '', redirectTo: (localStorage.getItem('token') != null ? '/Home' : '/Login'), pathMatch: 'full'},
     { path: 'Login', component: LoginUsuarioComponent},
     { path: 'Cadastro', component: CadastroUsuarioComponent},
     { path: 'CadastroProduto', component: CadastroProdutoComponent},

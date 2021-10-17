@@ -15,10 +15,14 @@ export class HeaderComponent implements OnInit {
   
   ngOnInit(): void {
     this.usuarioService.token.subscribe(valor => this.token = valor);
+    if(localStorage.getItem('token') != null) {
+      this.token = localStorage.getItem('token');
+    }
   }
 
   sair() {
     this.usuarioService.armazenarDadosLogin('', new Usuario());
+    localStorage.removeItem('token')
     this.routes.navigate(['/Login'])
   }
 

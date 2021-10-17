@@ -8,46 +8,94 @@
                 <form class="row g-3 align-items-center" [formGroup]="cadastroPForm" (ngSubmit)="cadastrarProduto()">
                     <div class="col-md-12">
                         <label for="Produto" class="form-label">Título do leilão</label>
-                        <input type="text" class="form-control" id="Produto" required placeholder="Digite o nome do leilão" formControlName="produto" [ngClass]="{ 'is-invalid': produto.errors && (produto.dirty || produto.touched)} ">
+                        <input type="text" class="form-control" id="Produto" required placeholder="Digite o nome do leilão"
+                         formControlName="produto" 
+                         [ngClass]="{ 'is-invalid': produto.errors && (produto.dirty || produto.touched)} ">
                         <div *ngIf="produto.errors?.required && (produto.dirty || produto.touched)" class="text-danger" >
                             <p>Preencha o nome do leilão</p>
+                        </div>
+                        <div *ngIf="produto.errors?.minlength && (produto.dirty || produto.touched)" class="text-danger">
+                            <p>Nome do leilão muito curto</p>
+                        </div>
+                        <div *ngIf="produto.errors?.maxlength && (produto.dirty || produto.touched)" class="text-danger">
+                            <p>Nome do leilão muito longo</p>
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <label for="Localizacao" class="form-label">Localização</label>
-                        <input type="text" class="form-control" id="localizacao" required placeholder="Digite a localização" formControlName="localizacao" [ngClass]="{'is-invalid': localizacao.errors && (localizacao.dirty || localizacao.touched)}">
-                        <div *ngIf="localizacao.errors?.required && (localizacao.dirty || localizacao.touched)" class="text-danger" >
+                        <input type="text" class="form-control" id="localizacao" required 
+                        placeholder="Digite a localização" formControlName="localizacao"
+                        [ngClass]="{'is-invalid': localizacao.errors && (localizacao.dirty || localizacao.touched)}">
+                        <div *ngIf="localizacao.errors?.required && (localizacao.dirty || localizacao.touched)" 
+                        class="text-danger" >
                             <p>Preencha a localização</p>
                         </div>
                     </div>
 
                     <div class = "col-md-12">
                         <label for="LanceInicial" class="form-label">Lance Inicial</label>
-                        <input type="number" class="form-control" id="lanceInicial" required placeholder="Digite o valor do lance inicial" formControlName="lanceInicial" [ngClass]="{'is-invalid': lanceInicial.errors && (lanceInicial.dirty || lanceInicial.touched)}">
-                        <div *ngIf="lanceInicial.errors?.required && (lanceInicial.dirty || lanceInicial.touched)" class="text-danger" >
+                        <input type="text" class="form-control" id="lanceInicial" required 
+                        placeholder="Digite o valor do lance inicial" formControlName="lanceInicial" 
+                        [ngClass]="{'is-invalid': lanceInicial.errors && (lanceInicial.dirty || lanceInicial.touched)}"
+                        [textMask]="{ mask: MASKS.currency.textMask}">
+                        <div *ngIf="lanceInicial.errors?.required && (lanceInicial.dirty || lanceInicial.touched)" 
+                        class="text-danger" >
                             <p>Preencha o valor do lance inicial</p>
+                        </div>
+                        <div *ngIf="lanceInicial.errors?.min && (lanceInicial.dirty || lanceInicial.touched)" 
+                        class="text-danger">
+                            <p>Valor inválido</p>
+                        </div>
+                        <div *ngIf="lanceInicial.errors?.max && (lanceInicial.dirty || lanceInicial.touched)" 
+                        class="text-danger">
+                            <p>Valor máximo atingido</p>
                         </div>
                     </div>
 
                     <div class = "col-md-12">
                         <label for="data inicial">Informe a data de início do leilão</label>
-                        <input id="dataInicial" type="datetime-local" name="dataInicial" value="2021-06-01T08:30" required>
-
+                        <input id="dataInicial" class="form-control" type="datetime-local" name="dataInicio" 
+                        formControlName="dataInicio" 
+                        [ngClass]="{'is-invalid': dataInicio.errors && (dataInicio.dirty || dataInicio.touched)}">
+                        <div *ngIf="dataInicio.errors?.required && (dataInicio.dirty || dataInicio.touched)" class="text-danger">
+                            <p>Favor preencher a data de início</p>
+                        </div>
+                        <div *ngIf="dataInicio.errors?.minDate && (dataInicio.dirty || dataInicio.touched)" class="text-danger">
+                            <p>Data inválida</p>
+                        </div>
+                        <div *ngIf="dataInicio.errors?.maxDate && (dataInicio.dirty || dataInicio.touched)" class="text-danger">
+                            <p>Data de início muito longe da data atual</p>
+                        </div>
                     </div>
                     
                     <div class = "col-md-12">
                         <label for="data final">Informe a data do término do leilão</label>
-                        <input id="data-final" type="datetime-local" name="data-final" value="2021-06-01T08:30" required>
+                        <input id="data-final" class="form-control" type="datetime-local" name="dataTermino" 
+                        formControlName="dataTermino" 
+                        [ngClass]="{'is-invalid': dataTermino.errors && (dataTermino.dirty || dataTermino.touched)}">
+                        <div *ngIf="dataTermino.errors?.required && (dataTermino.dirty || dataTermino.touched)" class="text-danger">
+                            <p>Favor preencher a data de término</p>
+                        </div>
+                        <div *ngIf="dataTermino.errors?.mindate && (dataTermino.dirty || dataTermino.touched)" class="text-danger">
+                            <p>Data inválida</p>
+                        </div>
+                        <div *ngIf="dataTermino.errors?.maxdate && (dataTermino.dirty || dataTermino.touched)" class="text-danger">
+                            <p>Data de término muito longe da data atual</p>
+                        </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="fotoLeilao">Insira a foto do leilão</label>
-                        <input type="file" class="form-control-file" id="fotoLeilao"> <! (change)="anexarFoto($event)" >
+                        <input type="file" class="form-control" id="fotoLeilao" formControlaName="fotoLeilao" 
+                        (change)="anexarFoto($event)" >
+                        <div *ngIf="mensagemAnexoFoto" class="text-danger">
+                            {{mensagemAnexoFoto}}
+                        </div>
                     </div>
 
                     <div class="col-md-12">
-                        <button class="btn btn-primary" type="submit" [disabled]="!cadastroPForm.valid">Cadastrar</button>
+                        <button class="btn btn-primary" type="submit" [disabled]="!cadastroPForm.valid" >Cadastrar</button>
                     </div>
                 </form>
             </div>
