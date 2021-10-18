@@ -17,21 +17,19 @@ export class SocketioService {
     this.socket = io(environment.SOCKET_ENDPOINT);
   }
 
-  async joinRoom(username: string, room: string): Promise<MessageResponse[]> {
-    return new Promise((resolve) => {
-      this.socket.emit('joinRoom', { username, room }, (messages: MessageResponse[]) => {
-        resolve(messages);
-      })
-    });
-    // let roomMessages: MessageResponse[] = [];
-    
-    //   console.log('messages', messages);
-    //   roomMessages = messages;
-    //   return messages; 
-    // });
+  joinRoom(name: string, room: string): void {
+    this.socket.emit('joinRoom', { name, room })
   }
 
-  sendMessage(data: SendMessage) {
+  getRoomAndUsers() {
+    return new Observable<{ room: string, users: any[], messages: { room: string, username: string, text: string, time: string }[]  }>((observer) => {
+      this.socket.on('roomUsers', (data: { room: string, users: any[], messages: { room: string, username: string, text: string, time: string }[] }) => {
+        observer.next(data);
+      });
+    });
+  }
+
+  sendMessage(data: string) {
     this.socket.emit('message', data);
   }
 

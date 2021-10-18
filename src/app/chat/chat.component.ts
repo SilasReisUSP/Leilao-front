@@ -9,21 +9,27 @@ import { MessageResponse, SendMessage } from './types';
 })
 export class ChatComponent implements OnInit {
   username = 'Wallace';
-  room = 'sala1';
+  room = 'JavaScript';
   message: string;
-  messages: MessageResponse[];
+  messages: MessageResponse[] = [];
+  users: any[];
 
   constructor(private socketIoService: SocketioService) {}
 
   async ngOnInit(): Promise<void> {
     this.socketIoService.connect();
-    this.messages = [...this.messages, ...(await this.socketIoService.joinRoom(this.username, this.room))];
+    this.socketIoService.joinRoom(this.username, this.room);
+    // this.messages = [...this.messages, ...(await this.socketIoService.joinRoom(this.username, this.room))];
+    this.socketIoService.getRoomAndUsers().subscribe(data => {
+      const { messages, users } = data;
+      this.messages.push(...messages);
+      this.users.push(users);
+    })
     this.socketIoService.receiveMessages().subscribe(message => this.messages.push(message))
   }
 
   sendMessage() {
-    const data = { message: this.message, room: this.room, username: this.username }; //TODO corrigir dados mockados
-    this.socketIoService.sendMessage(data);
+    this.socketIoService.sendMessage(this.message);
     this.message = ''
   }
 

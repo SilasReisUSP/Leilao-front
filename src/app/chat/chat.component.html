@@ -14,7 +14,7 @@
 
       <article>
           <div class="date">07 de setembro de 2021</div>
-          <div *ngFor="let item of messages" class="messages ${ data.username === username ? 'you' : 'other' }">
+          <div *ngFor="let item of messages">
             <img src="https://thispersondoesnotexist.com/image" class="profile-pic"/>
             <div class="message">
                 <p>{{item.text}}</p>
