@@ -7,6 +7,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { RouterModule } from '@angular/router';
 import { rootRouterConfig } from './app.routes';
 import { APP_BASE_HREF } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppComponent } from './app.component';
 import { CadastroUsuarioComponent } from './cadastro/cadastro-usuario/cadastro-usuario.component';
@@ -38,9 +39,9 @@ import { ProdutoService } from './services/produto.service';
     ReactiveFormsModule,
     HttpClientModule,
     TextMaskModule,
-    [RouterModule.forRoot(rootRouterConfig, {useHash: false}),
-    FontAwesomeModule
-  ]
+    NgxPaginationModule,
+    FontAwesomeModule,
+    [RouterModule.forRoot(rootRouterConfig, {useHash: false})]
   ],
   providers: [
     {provide: APP_BASE_HREF, useValue: '/'},
