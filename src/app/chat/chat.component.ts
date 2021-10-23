@@ -1,6 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SocketioService } from '../services/socketio.service';
 import { MessageResponse, SendMessage } from './types';
+import { ActivatedRoute, Router} from '@angular/router';
+import { UsuarioService } from '../services/usuario.service';
+import { ProdutoService } from '../services/produto.service';
 
 @Component({
   selector: 'app-chat',
@@ -13,10 +16,26 @@ export class ChatComponent implements OnInit {
   message: string;
   messages: MessageResponse[] = [];
   users: any[];
+  idLeilao: string | null;
+  token: string;
 
-  constructor(private socketIoService: SocketioService) {}
+  constructor(private socketIoService: SocketioService, 
+    private routeId: ActivatedRoute, private usuarioService: UsuarioService,
+    private routes: Router, private produtoService: ProdutoService) {}
 
   async ngOnInit(): Promise<void> {
+
+    this.usuarioService.token.subscribe(valor => this.token = valor)
+
+    if(this.token == '') {
+      this.routes.navigate(['/Login']);
+    }
+
+    this.idLeilao = this.routeId.snapshot.paramMap.get('id');
+
+    this.produtoService.getProdutoId(this.idLeilao, this.token)
+    .subscribe(rst => console.log(rst), err => console.log(err))
+
     this.socketIoService.connect();
     this.socketIoService.joinRoom(this.username, this.room);
     // this.messages = [...this.messages, ...(await this.socketIoService.joinRoom(this.username, this.room))];

@@ -25,10 +25,10 @@ export class ProdutoService {
     console.log('produto', produto);
     const formData = new FormData();
     formData.append('fotoLeilao', produto?.fotoLeilao, produto.fotoLeilao.name)
-    formData.append('nome', 'Leilao1');
-    formData.append('dataInicio', 'Leilao1');
-    formData.append('dataFinal', 'Leilao1');
-    formData.append('valorInicial', '200');
+    formData.append('nome', produto?.nome);
+    formData.append('dataInicio', produto?.dataInicio);
+    formData.append('dataFinal', produto?.dataFinal);
+    formData.append('valorInicial', produto?.valorInicial);
     if(!this.httpOptions.headers.has('Authorization'))
       this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
     return this.http.post(this.produtoUrl+"products", formData, this.httpOptions)
@@ -44,5 +44,12 @@ export class ProdutoService {
     const resp = this.http.get('http://localhost:2828/files/test.png', { headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }) })
     console.log('rs', resp);
     return resp;
+  }
+
+  getProdutoId(idLeilao: string | null, token: string): Observable<any> {
+    if(!this.httpOptions.headers.has('Authorization'))
+      this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
+      const url = '${this.produtoUrl}/products/${idLeilao}'
+    return this.http.get(url, this.httpOptions)
   }
 }

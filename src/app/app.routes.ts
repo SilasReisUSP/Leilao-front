@@ -12,5 +12,5 @@ export const rootRouterConfig: Routes = [
     { path: 'Cadastro', component: CadastroUsuarioComponent},
     { path: 'CadastroProduto', component: CadastroProdutoComponent},
     { path: 'Home', component: HomeComponent},
-    { path: 'chat', component: ChatComponent},
+    { path: 'chat/:id', component: ChatComponent},
 ]

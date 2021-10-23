@@ -1,8 +1,9 @@
 export class Produto{
+    id: string;
     nome: string;
     localizacao: string;
     valorInicial: string;
-    dataInicio: Date;
-    dataFinal: Date;
+    dataInicio: string;
+    dataFinal: string;
     fotoLeilao: File;
   }
