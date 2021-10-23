@@ -49,7 +49,7 @@ export class ProdutoService {
   getProdutoId(idLeilao: string | null, token: string): Observable<any> {
     if(!this.httpOptions.headers.has('Authorization'))
       this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
-      const url = '${this.produtoUrl}/products/${idLeilao}'
+      const url = `${this.produtoUrl}products/${idLeilao}`
     return this.http.get(url, this.httpOptions)
   }
 }

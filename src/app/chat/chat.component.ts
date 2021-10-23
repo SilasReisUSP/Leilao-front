@@ -11,8 +11,8 @@ import { ProdutoService } from '../services/produto.service';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  username = 'Wallace';
-  room = 'JavaScript';
+  username: string;
+  room: string | null;
   message: string;
   messages: MessageResponse[] = [];
   users: any[];
@@ -32,9 +32,16 @@ export class ChatComponent implements OnInit {
     }
 
     this.idLeilao = this.routeId.snapshot.paramMap.get('id');
+    this.room = this.idLeilao;
 
     this.produtoService.getProdutoId(this.idLeilao, this.token)
     .subscribe(rst => console.log(rst), err => console.log(err))
+
+    this.usuarioService.getUsuario(this.token)
+    .subscribe(rst => {
+      this.username = rst.nome;
+    }, 
+    err => console.log(err))
 
     this.socketIoService.connect();
     this.socketIoService.joinRoom(this.username, this.room);

@@ -17,7 +17,7 @@ export class SocketioService {
     this.socket = io(environment.SOCKET_ENDPOINT);
   }
 
-  joinRoom(name: string, room: string): void {
+  joinRoom(name: string, room: string | null): void {
     this.socket.emit('joinRoom', { name, room })
   }
 
