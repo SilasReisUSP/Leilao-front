@@ -5,6 +5,7 @@ import { ProdutoService } from '../services/produto.service';
 import { Produto } from '../models/Produto';
 import { faArrowAltCircleLeft, faArrowAltCircleRight} from '@fortawesome/free-solid-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -30,6 +31,8 @@ export class HomeComponent implements OnInit {
       this.routes.navigate(['/Login']);
     }
 
+    // this.produtoService.getImage().subscribe((res) => console.log(res))
+
     this.produtoService.getProdutos(this.token)
     .subscribe(rst => {
       console.log('produtos', rst)
@@ -39,7 +42,8 @@ export class HomeComponent implements OnInit {
         localizacao: test.localizacao, 
         nome: test.nome, 
         valorInicial: test.valorInicial,
-        fotoLeilao: this.convert(test.fotoLeilao) || ''
+        fotoLeilao: environment.FILES+test.urlImagem
+        // fotoLeilao: this.userImage(test.fotoLeilao) || ''
         // fotoLeilao: test.fotoLeilao?.data || ''
       }))
       console.log('produtos2', data)

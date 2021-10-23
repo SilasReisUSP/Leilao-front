@@ -39,4 +39,10 @@ export class ProdutoService {
       this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
     return this.http.get(this.produtoUrl+"products", this.httpOptions)
   }
+
+  getImage(): Observable<any> {
+    const resp = this.http.get('http://localhost:2828/files/test.png', { headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }) })
+    console.log('rs', resp);
+    return resp;
+  }
 }
