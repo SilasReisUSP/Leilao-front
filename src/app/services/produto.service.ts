@@ -21,12 +21,10 @@ export class ProdutoService {
   constructor(private http: HttpClient) { }
     
 
-  addProduto(produto: any, token: string) : Observable<any> {
+  addProduto(produto: Produto, token: string) : Observable<any> {
     console.log('produto', produto);
     const formData = new FormData();
-    formData.append('fotoLeilao', produto.fotoLeilao, produto.fotoLeilao.name)
-    // formData.append('nome', 'Leilao1');
-    // nome, dataInicio, dataFinal, valorInicial
+    formData.append('fotoLeilao', produto?.fotoLeilao, produto.fotoLeilao.name)
     formData.append('nome', 'Leilao1');
     formData.append('dataInicio', 'Leilao1');
     formData.append('dataFinal', 'Leilao1');

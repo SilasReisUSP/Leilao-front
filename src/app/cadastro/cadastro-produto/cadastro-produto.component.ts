@@ -63,19 +63,19 @@ export class CadastroProdutoComponent implements OnInit {
     this.cadastroProdutoService.addProduto(this.cadastroPForm.value, this.token)
     .subscribe(rst => {
       console.log('rst', rst)
-      // Swal.fire({
-      //     icon: 'success',
-      //      title: 'Sucesso',
-      //      text: rst.message
-      //  });
-      // this.routes.navigate(['/Home'])
-      // }, 
-      // rst =>{
-      //  Swal.fire({
-      //   icon: 'error',
-      //   title: 'Oops...',
-      //   text: rst.error
-      // })
+      Swal.fire({
+          icon: 'success',
+           title: 'Sucesso',
+           text: rst.message
+       });
+      this.routes.navigate(['/Home'])
+      }, 
+      rst =>{
+       Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: rst.error
+      })
     })
   }
 

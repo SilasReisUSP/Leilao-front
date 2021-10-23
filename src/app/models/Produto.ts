@@ -4,5 +4,5 @@ export class Produto{
     valorInicial: string;
     dataInicio: Date;
     dataFinal: Date;
-    fotoLeilao: Blob[];
+    fotoLeilao: File;
   }

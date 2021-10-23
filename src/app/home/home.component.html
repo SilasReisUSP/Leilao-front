@@ -5,7 +5,8 @@
             <div class="card h-100">
                 <a class="text-decoration-none">
                     <div style="align-content:center;">
-                        <img src="" height="164px" width="253px" alt="">
+                        <!-- <img src="data:image/png;base64,leilao.fotoLeilao" height="164px" width="253px" alt=""> -->
+                        <img [src]="leilao.fotoLeilao" height="164px" width="253px" alt="">
                     </div>
                 </a>
                 <h4 class="card-title">{{ leilao.nome | titlecase }}</h4>
