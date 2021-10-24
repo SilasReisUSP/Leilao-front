@@ -6,6 +6,7 @@ import { Produto } from '../models/Produto';
 import { faArrowAltCircleLeft, faArrowAltCircleRight} from '@fortawesome/free-solid-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
+import { getUser } from '../helpers';
 
 
 @Component({
@@ -31,20 +32,21 @@ export class HomeComponent implements OnInit {
       this.routes.navigate(['/Login']);
     }
 
-    // this.produtoService.getImage().subscribe((res) => console.log(res))
+    const usuario = getUser();
 
     this.produtoService.getProdutos(this.token)
     .subscribe(rst => {
-      const data = rst.data.map((test: any) => ({ 
-        id: test._id,
-        dataFinal: test.dataFinal, 
-        dataInicio: test.dataInicio, 
-        localizacao: test.localizacao, 
-        nome: test.nome, 
-        valorInicial: test.valorInicial,
-        fotoLeilao: environment.FILES+test.urlImagem
+      const data = rst.data.map((data: any) => ({ 
+        id: data._id,
+        dataFinal: data.dataFinal, 
+        dataInicio: data.dataInicio, 
+        localizacao: data.localizacao, 
+        nome: data.nome, 
+        valorInicial: data.valorInicial,
+        fotoLeilao: environment.FILES+data.urlImagem,
+        usuario: data.usuario
       }))
-      
+      // .filter((data: any) => data.usuario !== usuario._id);      
       this.leilaoList = data
     },
      err => console.log(err))

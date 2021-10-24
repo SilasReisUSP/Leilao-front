@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 import { MessageResponse, SendMessage } from '../chat/types';
+import { ProdutoResponse } from '../models/ProdutoResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class SocketioService {
     this.socket = io(environment.SOCKET_ENDPOINT);
   }
 
-  joinRoom(name: string, room: string | null): void {
+  joinRoom(name: string, room: any): void {
     this.socket.emit('joinRoom', { name, room })
   }
 

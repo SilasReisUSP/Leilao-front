@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { UsuarioService } from '../services/usuario.service';
 import { Router } from '@angular/router';
+import { SocketioService } from '../services/socketio.service';
 
 
 
@@ -16,7 +17,9 @@ export class LoginUsuarioComponent implements OnInit {
   token: string
 
   constructor(private usuarioService: UsuarioService,
-              private routes: Router) { }
+              private routes: Router,
+              private socketioService: SocketioService
+  ) { }
 
   ngOnInit(): void {
     this.loginForm= new FormGroup({
@@ -33,8 +36,11 @@ export class LoginUsuarioComponent implements OnInit {
     const senha = this.loginForm.get('senha').value;
     this.usuarioService.fazerLogin(email,senha)
       .subscribe(rst => {
-        this.usuarioService.armazenarDadosLogin('Bearer '+rst.token)
-        localStorage.setItem('token', 'Bearer '+rst.token)
+        // TODO: conectar no socket
+        this.socketioService.connect();
+        this.usuarioService.armazenarDadosLogin('Bearer '+rst.token);
+        localStorage.setItem('token', 'Bearer '+rst.token);
+        localStorage.setItem('usuario', JSON.stringify(rst.usuarioCadastrado));
         this.routes.navigate(['/Home'])
       },
       rst =>  {

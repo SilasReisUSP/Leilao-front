@@ -4,6 +4,9 @@ import { MessageResponse, SendMessage } from './types';
 import { ActivatedRoute, Router} from '@angular/router';
 import { UsuarioService } from '../services/usuario.service';
 import { ProdutoService } from '../services/produto.service';
+import { Produto } from '../models/Produto';
+import { ProdutoResponse } from '../models/ProdutoResponse';
+import { getUser } from '../helpers';
 
 @Component({
   selector: 'app-chat',
@@ -13,11 +16,13 @@ import { ProdutoService } from '../services/produto.service';
 export class ChatComponent implements OnInit {
   username: string;
   room: string | null;
+  roomName: string;
   message: string;
   messages: MessageResponse[] = [];
   users: any[];
   idLeilao: string | null;
   token: string;
+  produto: ProdutoResponse;
 
   constructor(private socketIoService: SocketioService, 
     private routeId: ActivatedRoute, private usuarioService: UsuarioService,
@@ -35,7 +40,11 @@ export class ChatComponent implements OnInit {
     this.room = this.idLeilao;
 
     this.produtoService.getProdutoId(this.idLeilao, this.token)
-    .subscribe(rst => console.log(rst), err => console.log(err))
+    .subscribe((rst: ProdutoResponse) => {
+      this.produto = rst;
+      this.username = getUser().nome || '';
+      this.socketIoService.joinRoom(this.username, { id: this.idLeilao, name: this.produto.nome });
+    }, err => console.log(err))
 
     this.usuarioService.getUsuario(this.token)
     .subscribe(rst => {
@@ -44,8 +53,7 @@ export class ChatComponent implements OnInit {
     err => console.log(err))
 
     this.socketIoService.connect();
-    this.socketIoService.joinRoom(this.username, this.room);
-    // this.messages = [...this.messages, ...(await this.socketIoService.joinRoom(this.username, this.room))];
+        // this.messages = [...this.messages, ...(await this.socketIoService.joinRoom(this.username, this.room))];
     this.socketIoService.getRoomAndUsers().subscribe(data => {
       const { messages, users } = data;
       this.messages.push(...messages);
@@ -58,10 +66,4 @@ export class ChatComponent implements OnInit {
     this.socketIoService.sendMessage(this.message);
     this.message = ''
   }
-
-  // joinRoom() {
-  //   this.socketIoService.receiveJoinRoom().subscribe((message: string) => {
-  //     console.log('mesa', message);
-  //   })
-  // }
 }
