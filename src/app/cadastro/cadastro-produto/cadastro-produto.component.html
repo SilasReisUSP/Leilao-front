@@ -22,17 +22,6 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <label for="Localizacao" class="form-label">Localização</label>
-                        <input type="text" class="form-control" id="localizacao" required 
-                        placeholder="Digite a localização" formControlName="localizacao"
-                        [ngClass]="{'is-invalid': localizacao.errors && (localizacao.dirty || localizacao.touched)}">
-                        <div *ngIf="localizacao.errors?.required && (localizacao.dirty || localizacao.touched)" 
-                        class="text-danger" >
-                            <p>Preencha a localização</p>
-                        </div>
-                    </div>
-
                     <div class = "col-md-12">
                         <label for="valorInicial" class="form-label">Lance Inicial</label>
                         <input autocomplete="off" type="text" class="form-control"  id="valorInicial" required 

@@ -14,7 +14,7 @@
                 <p>Lance inicial: {{ leilao.valorInicial }}</p>
 
                 <div class="card-footer">
-                    <a class="btn btn-primary">Participar</a>
+                    <a class="btn btn-primary" [routerLink]="['/chat', leilao.id]">Participar</a>
                 </div>
             </div>
         </div>

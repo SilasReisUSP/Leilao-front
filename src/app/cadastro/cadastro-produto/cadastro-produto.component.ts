@@ -48,8 +48,6 @@ export class CadastroProdutoComponent implements OnInit {
       nome: new FormControl('', [Validators.required, Validators.minLength(2), 
                                     Validators.maxLength(50)]),
 
-      localizacao: new FormControl('', [Validators.required]),
-
       valorInicial: new FormControl('',[Validators.required, Validators.min(1), 
                                     Validators.max(1000000)]),
       dataInicio: dataInicio,
@@ -103,8 +101,6 @@ export class CadastroProdutoComponent implements OnInit {
     
  }
   get nome() { return this.cadastroPForm.get('nome') }
-
-  get localizacao() { return this.cadastroPForm.get('localizacao')}
 
   get valorInicial() { return this.cadastroPForm.get('valorInicial')}
 

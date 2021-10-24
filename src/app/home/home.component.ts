@@ -35,17 +35,16 @@ export class HomeComponent implements OnInit {
 
     this.produtoService.getProdutos(this.token)
     .subscribe(rst => {
-      console.log('produtos', rst)
       const data = rst.data.map((test: any) => ({ 
+        id: test._id,
         dataFinal: test.dataFinal, 
         dataInicio: test.dataInicio, 
         localizacao: test.localizacao, 
         nome: test.nome, 
         valorInicial: test.valorInicial,
         fotoLeilao: environment.FILES+test.urlImagem
-        // fotoLeilao: this.userImage(test.fotoLeilao) || ''
-        // fotoLeilao: test.fotoLeilao?.data || ''
       }))
+      
       this.leilaoList = data
     },
      err => console.log(err))
