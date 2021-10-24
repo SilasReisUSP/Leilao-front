@@ -46,29 +46,9 @@ export class HomeComponent implements OnInit {
         // fotoLeilao: this.userImage(test.fotoLeilao) || ''
         // fotoLeilao: test.fotoLeilao?.data || ''
       }))
-      console.log('produtos2', data)
-      console.log('image', data[0].fotoLeilao?.data);
       this.leilaoList = data
     },
      err => console.log(err))
-  }
-
-  userImage(file: any) {
-    let value = null;
-    const image = `data:image/jpeg;base64,${file}`;
-    value = this.sanitizer.bypassSecurityTrustUrl(image);
-    return value;
-  }
-
-  _arrayBufferToBase64(buffer: any) {
-    return btoa(String.fromCharCode(...new Uint8Array(buffer)));
-  }
-
-  convert(buffer: any) {
-    const newBuffer = new Uint8Array(buffer)
-    const blob = new Blob([newBuffer], { type: 'image/png' })
-    const url = URL.createObjectURL(blob)
-    return url
   }
 
   changePage(page: number) {
