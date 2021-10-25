@@ -34,7 +34,7 @@ export class MeusLeiloesComponent implements OnInit {
 
     const usuario = getUser();
 
-    this.produtoService.getProdutos(this.token)
+    this.produtoService.getMeusProdutos(this.token)
     .subscribe(rst => {
       const data = rst.data.map((data: any) => ({ 
         id: data._id,
@@ -53,7 +53,7 @@ export class MeusLeiloesComponent implements OnInit {
   }
 
   changePage(page: number) {
-    this.produtoService.getProdutos(this.token)
+    this.produtoService.getMeusProdutos(this.token)
     .subscribe(rst => this.leilaoList = rst,
      err => console.log(err))
   }
