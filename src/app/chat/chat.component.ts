@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, QueryList, ViewChildren, ElementRef, AfterViewInit } from '@angular/core';
 import { SocketioService } from '../services/socketio.service';
-import { MessageResponse, SendMessage } from './types';
+import { MessageSocketResponse, SendMessage, UserSocketResponse } from './types';
 import { ActivatedRoute, Router} from '@angular/router';
 import { UsuarioService } from '../services/usuario.service';
 import { ProdutoService } from '../services/produto.service';
@@ -13,16 +13,22 @@ import { getUser } from '../helpers';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
   username: string;
   room: string | null;
   roomName: string;
   message: string;
-  messages: MessageResponse[] = [];
-  users: any[];
+  messages: MessageSocketResponse[] = [];
+  users: UserSocketResponse[] = [];
   idLeilao: string | null;
   token: string;
   produto: ProdutoResponse;
+  
+  timeLeft: number = 6000;
+  interval: any;
+
+  @ViewChild('chatMessages') chatMessagesElem: ElementRef;
+  @ViewChildren('messages') messagesElem: QueryList<any>;
 
   constructor(private socketIoService: SocketioService, 
     private routeId: ActivatedRoute, private usuarioService: UsuarioService,
@@ -39,11 +45,22 @@ export class ChatComponent implements OnInit {
     this.idLeilao = this.routeId.snapshot.paramMap.get('id');
     this.room = this.idLeilao;
 
+    this.socketIoService.connect();
+    this.socketIoService.getRoomAndUsers().subscribe(data => {
+      const { messages, users } = data;
+      console.log('dat', data);
+      if (messages) this.setMessages(messages);
+      if (users) this.setUsers(users);
+    })
+    this.socketIoService.receiveMessages().subscribe(message => {
+      this.setMessages([message]);
+    })
+
     this.produtoService.getProdutoId(this.idLeilao, this.token)
-    .subscribe((rst: ProdutoResponse) => {
-      this.produto = rst;
+    .subscribe((produto: ProdutoResponse) => {
+      this.produto = produto;
       this.username = getUser().nome || '';
-      this.socketIoService.joinRoom(this.username, this.room, rst.nome);
+      this.socketIoService.joinRoom(this.username, this.room, produto.nome);
     }, err => console.log(err))
 
     this.usuarioService.getUsuario(this.token)
@@ -52,18 +69,40 @@ export class ChatComponent implements OnInit {
     }, 
     err => console.log(err))
 
-    this.socketIoService.connect();
-        // this.messages = [...this.messages, ...(await this.socketIoService.joinRoom(this.username, this.room))];
-    this.socketIoService.getRoomAndUsers().subscribe(data => {
-      const { messages, users } = data;
-      this.messages.push(...messages);
-      this.users.push(users);
-    })
-    this.socketIoService.receiveMessages().subscribe(message => this.messages.push(message))
+    this.startTimer();
+  }
+
+  ngAfterViewInit() {
+    this.scrollToBottom();
+    this.messagesElem.changes.subscribe(this.scrollToBottom);
+  }
+
+  scrollToBottom = () => {
+    try {
+      this.chatMessagesElem.nativeElement.scrollTop = this.chatMessagesElem.nativeElement.scrollHeight;
+    } catch (err) {}
   }
 
   sendMessage() {
     this.socketIoService.sendMessage(this.message);
     this.message = ''
+  }
+
+  setMessages(messages: MessageSocketResponse[]) {
+    this.messages = [...this.messages, ...messages];
+  }
+
+  setUsers(users: UserSocketResponse[]) {
+    this.users = users;
+  }
+
+  startTimer() {
+    this.interval = setInterval(() => {
+      if(this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        this.timeLeft = 60;
+      }
+    },1000)
   }
 }

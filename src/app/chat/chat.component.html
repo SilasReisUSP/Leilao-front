@@ -1,13 +1,13 @@
-<div>
+<!-- <div>
   <main>
       <header>
           <h1>Sala: {{ produto.nome }}</h1>
 
           <div class="badges">
-              <!-- <i class="fa fa-bell"></i> -->
+              <i class="fa fa-bell"></i>
               <div class="fa fa-user">
                   <p>username</p>
-                  <!-- <img src="https://thispersondoesnotexist.com/image" class="profile-pic" /> -->
+                  <img src="https://thispersondoesnotexist.com/image" class="profile-pic" /> 
               </div>
           </div>
       </header>
@@ -18,7 +18,7 @@
             <img src="https://thispersondoesnotexist.com/image" class="profile-pic"/>
             <div class="message">
                 <p>{{item.text}}</p>
-                <!-- <p>${ data.text }</p> -->
+                <p>${ data.text }</p>
             </div>
           </div>
       </article>
@@ -29,12 +29,10 @@
           <i class="fa fa-paper-plane"></i>
       </footer>
   </main>
-<div>
+<div> -->
 
-
-
-  
-<!-- <div class="container-fluid">
+<!--   
+<div class="container-fluid">
   <div class="row">
     <h2>Instant Chat</h2>
     <hr>
@@ -52,8 +50,8 @@
        <button type="button" class="btn btn-default" (click)="leave()">Leave</button>
       </div>
     </div>
-  </div>
-
+  </div> -->
+<!-- <div>
   <div class="row">
     <div class="well" style="height:200px; padding:15px;">{{messages}}
       <div *ngFor="let item of messages">
@@ -69,40 +67,46 @@
       <button type="button" class="btn btn-success pull-right" (click)="sendMessage()">Send</button>
     </div>
   </div>
-</div> -->
+</div>  -->
 
-<!-- <div class="chat-container">
+    <div class="chat-container">
       <header class="chat-header">
-          <h1><i class="fas fa-smile"></i> ChatCord</h1>
-          <a href="index.html" class="btn">Leave Room</a>
+        <h1><i class="fa fa-smile"></i> Chat</h1>
+        <p>{{ timeLeft }}</p>
       </header>
       <main class="chat-main">
-          <div class="chat-sidebar">
-              <h3><i class="fa fa-comments"></i> Room Name:</h3>
-              <h2 id="room-name"></h2>
-              <h3><i class="fa fa-users"></i> Users</h3>
-              <ul id="users"></ul>
+        <div class="chat-sidebar">
+          <h3><i class="fa fa-comments"></i> Nome da sala:</h3>
+          <h2 id="room-name">{{ produto?.nome }}</h2>
+          <h3><i class="fa fa-users"></i> Usuários </h3>
+          <ul id="users">
+            <li *ngFor="let user of users">{{ user.name }}</li>
+          </ul>
+        </div>
+        <div class="chat-messages" #chatMessages *ngIf="messages.length > 0">
+          <div class="message" #messages *ngFor="let item of messages">
+            <p class="meta">
+              {{ item.name }}
+              <span>{{ item.time }}</span>
+            </p>
+            <p class="text">
+              {{ item.text }}
+            </p>
           </div>
-          <div class="chat-messages">
-          </div>
-          
+        </div>
       </main>
       <div class="chat-form-container">
-          <form id="chat-form">
-              <input type="text" id="msg" placeholder="Enter Message" required autocomplete="off">
-              <button class="btn"><i class="fa fa-paper-plane"></i>Send</button>
-          </form>
+        <form (ngSubmit)="sendMessage()" id="chat-form">
+          <input
+            id="msg"
+            type="text"
+            [(ngModel)]="message"
+            name="message_field"
+            placeholder="Envie uma mensagem..."
+            required
+            autocomplete="off"
+          />
+          <button class="btn"><i class="fa fa-paper-plane"></i> Send</button>
+        </form>
       </div>
-</div> -->
-
-
-<!-- <div class="chat-messages">
-  <div class="chat-messages-show-container">
-    <ul class="chat-messages-show-list">
-    </ul>
-  </div>
-  <div class="chat-messages-create-container"> 
-    <input class="chat-messages-create-input" type="text" [(ngModel)]="message">
-    <button  class="chat-messages-create-button" (click)="sendMessage()"> Send </button>
-  </div>
-</div> -->
+    </div>

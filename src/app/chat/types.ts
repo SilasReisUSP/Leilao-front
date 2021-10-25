@@ -4,9 +4,15 @@ export type SendMessage = {
   username: string;
 }
 
-export type MessageResponse = {
+export type MessageSocketResponse = {
   room: string;
-  username: string;
+  name: string;
   text: string;
   time: string;
+}
+
+export type UserSocketResponse = {
+  id: string;
+  name: string;
+  room: string;
 }
