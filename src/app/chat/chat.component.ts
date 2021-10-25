@@ -43,7 +43,7 @@ export class ChatComponent implements OnInit {
     .subscribe((rst: ProdutoResponse) => {
       this.produto = rst;
       this.username = getUser().nome || '';
-      this.socketIoService.joinRoom(this.username, this.room);
+      this.socketIoService.joinRoom(this.username, this.room, rst.nome);
     }, err => console.log(err))
 
     this.usuarioService.getUsuario(this.token)

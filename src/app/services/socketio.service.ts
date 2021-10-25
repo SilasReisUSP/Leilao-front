@@ -18,8 +18,8 @@ export class SocketioService {
     this.socket = io(environment.SOCKET_ENDPOINT);
   }
 
-  joinRoom(name: string, room: any): void {
-    this.socket.emit('joinRoom', { name, room })
+  joinRoom(name: string, room: any, roomName?: string): void {
+    this.socket.emit('joinRoom', { name, room, roomName })
   }
 
   getRoomAndUsers() {
