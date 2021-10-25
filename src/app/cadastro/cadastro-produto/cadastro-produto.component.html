@@ -58,22 +58,6 @@
                         </div>
                     </div>
                     
-                    <div class = "col-md-12">
-                        <label for="data final">Informe a data do término do leilão</label>
-                        <input id="data-final" class="form-control" type="datetime-local" name="dataTermino" 
-                        formControlName="dataFinal" 
-                        [ngClass]="{'is-invalid': dataFinal.errors && (dataFinal.dirty || dataFinal.touched)}">
-                        <div *ngIf="dataFinal.errors?.required && (dataFinal.dirty || dataFinal.touched)" class="text-danger">
-                            <p>Favor preencher a data de término</p>
-                        </div>
-                        <div *ngIf="dataFinal.errors?.mindate && (dataFinal.dirty || dataFinal.touched)" class="text-danger">
-                            <p>Data inválida</p>
-                        </div>
-                        <div *ngIf="dataFinal.errors?.maxdate && (dataFinal.dirty || dataFinal.touched)" class="text-danger">
-                            <p>Data de término muito longe da data atual</p>
-                        </div>
-                    </div>
-                    
                     <div class="form-group">
                         <label for="fotoLeilao">Insira a foto do leilão</label>
                         <input type="file" class="form-control" id="fotoLeilao" formControlaName="fotoLeilao" 

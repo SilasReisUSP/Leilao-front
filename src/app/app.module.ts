@@ -22,6 +22,7 @@ import { ChatComponent } from './chat/chat.component';
 import { SocketioService } from './services/socketio.service';
 import { UsuarioService } from './services/usuario.service';
 import { ProdutoService } from './services/produto.service';
+import { MeusLeiloesComponent } from './meus-leiloes/meus-leiloes.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ProdutoService } from './services/produto.service';
     HeaderComponent,
     CadastroProdutoComponent,
     HomeComponent,
-    ChatComponent
+    ChatComponent,
+    MeusLeiloesComponent
   ],
   imports: [
     BrowserModule,

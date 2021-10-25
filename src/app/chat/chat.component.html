@@ -71,13 +71,15 @@
 
     <div class="chat-container">
       <header class="chat-header">
-        <h1><i class="fa fa-smile"></i> Chat</h1>
+        <h1><i class="fa fa-gavel" aria-hidden="true"></i> Chat</h1>
         <p>{{ timeLeft }}</p>
       </header>
       <main class="chat-main">
         <div class="chat-sidebar">
           <h3><i class="fa fa-comments"></i> Nome da sala:</h3>
           <h2 id="room-name">{{ produto?.nome }}</h2>
+          <h3><i class="fa fa-usd" aria-hidden="true"></i> Valor inicial:</h3>
+          <h2 id="valorInicial">{{ produto?.valorInicial }}</h2>
           <h3><i class="fa fa-users"></i> Usuários </h3>
           <ul id="users">
             <li *ngFor="let user of users">{{ user.name }}</li>
