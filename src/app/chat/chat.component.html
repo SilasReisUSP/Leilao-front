@@ -70,6 +70,9 @@
 </div>  -->
 
     <div class="chat-container">
+      <div class="alert" [class.visible]="isVisible"> 
+        <p><strong>Valor Inválido!</strong> Insira um valor maior que o lance atual.</p>
+      </div>
       <header class="chat-header">
         <h1><i class="fa fa-gavel" aria-hidden="true"></i> Chat</h1>
         <p>{{ timeLeft }}</p>
@@ -78,8 +81,8 @@
         <div class="chat-sidebar">
           <h3><i class="fa fa-comments"></i> Nome da sala:</h3>
           <h2 id="room-name">{{ produto?.nome }}</h2>
-          <h3><i class="fa fa-usd" aria-hidden="true"></i> Valor inicial:</h3>
-          <h2 id="valorAtual" >{{ currentValue }}</h2> <!-- TODO: Aplicar máscara de currency aqui -->
+          <h3><i class="fa fa-usd" aria-hidden="true"></i> Valor Lance Atual:</h3>
+          <h2 id="valorAtual" >{{ currentValue | currency: 'BRL' }}</h2> <!-- TODO: Aplicar máscara de currency aqui -->
           <h3><i class="fa fa-users"></i> Usuários </h3>
           <ul id="users">
             <li *ngFor="let user of users">{{ user.name }}</li>

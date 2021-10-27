@@ -39,6 +39,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   token: string;
   produto: ProdutoResponse;
   currentValue: number;
+  public isVisible: boolean = false;
 
   MASKS = utilsBr.MASKS;
 
@@ -126,6 +127,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.socketIoService.sendMessage(userValue);
     } else {
       //informando usuario de valor invalido
+      this.isVisible = true;
+      setTimeout(()=> this.isVisible = false,4000);
     }
     this.message = "";
   }
