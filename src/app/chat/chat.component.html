@@ -79,7 +79,7 @@
           <h3><i class="fa fa-comments"></i> Nome da sala:</h3>
           <h2 id="room-name">{{ produto?.nome }}</h2>
           <h3><i class="fa fa-usd" aria-hidden="true"></i> Valor inicial:</h3>
-          <h2 id="valorInicial">{{ produto?.valorInicial }}</h2>
+          <h2 id="valorAtual" >{{ currentValue }}</h2> <!-- TODO: Aplicar máscara de currency aqui -->
           <h3><i class="fa fa-users"></i> Usuários </h3>
           <ul id="users">
             <li *ngFor="let user of users">{{ user.name }}</li>
@@ -111,7 +111,7 @@
             [textMask]="{ mask: MASKS.currency.textMask}"
             (blur)="formatarValorFinal()"
           />
-          <button class="btn"><i class="fa fa-paper-plane"></i> Send</button>
+          <button type="submit" class="btn"><i class="fa fa-paper-plane"></i> Send</button>
         </form>
       </div>
     </div>
