@@ -7,6 +7,7 @@ import { ProdutoService } from '../services/produto.service';
 import { Produto } from '../models/Produto';
 import { ProdutoResponse } from '../models/ProdutoResponse';
 import { getUser } from '../helpers';
+import { utilsBr } from 'js-brasil';
 
 @Component({
   selector: 'app-chat',
@@ -23,6 +24,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
   idLeilao: string | null;
   token: string;
   produto: ProdutoResponse;
+  currentValue: string;
+
+  MASKS = utilsBr.MASKS;
   
   timeLeft: number = 6000;
   interval: any;
@@ -84,8 +88,17 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   sendMessage() {
-    this.socketIoService.sendMessage(this.message);
-    this.message = ''
+    //recebendo o valor digitado pelo usuario
+    let userValue = +this.message.replace("R$", "")
+    
+    //se o valor for maior que o valor atual da sala entao a mensagem e enviada ao socket
+    if(userValue > +this.currentValue) {
+      this.socketIoService.sendMessage(this.message);
+      this.message = ''  
+    } else {
+      //informando usuario de valor invalido
+    }
+    
   }
 
   setMessages(messages: MessageSocketResponse[]) {
@@ -104,5 +117,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.timeLeft = 60;
       }
     },1000)
+  }
+
+  formatarValorFinal() {
+    let teste = this.message;
+    if(!this.message.includes(',') && this.message != '') {
+      this.message = this.message + ',00'
+    }
   }
 }

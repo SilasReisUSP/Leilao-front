@@ -107,6 +107,9 @@
             placeholder="Envie uma mensagem..."
             required
             autocomplete="off"
+            class="form-control"
+            [textMask]="{ mask: MASKS.currency.textMask}"
+            (blur)="formatarValorFinal()"
           />
           <button class="btn"><i class="fa fa-paper-plane"></i> Send</button>
         </form>
