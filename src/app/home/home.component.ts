@@ -44,7 +44,8 @@ export class HomeComponent implements OnInit {
         nome: data.nome, 
         valorInicial: data.valorInicial,
         fotoLeilao: environment.FILES+data.urlImagem,
-        usuario: data.usuario
+        usuario: data.usuario,
+        status: data.status
       }))
       // .filter((data: any) => data.usuario !== usuario._id);      
       this.leilaoList = data

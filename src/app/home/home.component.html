@@ -14,7 +14,16 @@
                 <p>Lance inicial: {{ leilao.valorInicial | currency: 'BRL' }}</p>
 
                 <div class="card-footer">
-                    <a class="btn btn-primary" [routerLink]="['/chat', leilao.id]">Participar</a>
+                    <div *ngIf="leilao.status == 0">
+                        <a class="btn btn-primary">Esperar Data de Início: {{ leilao.dataInicio | date: 'dd/MM/yyyy' }}</a>
+                    </div>
+                    <div *ngIf="leilao.status == 1">
+                        <a class="btn btn-success" [routerLink]="['/chat', leilao.id]">Participar</a>
+                    </div>
+                    <div *ngIf="leilao.status == 2">
+                        <a class="btn btn-danger">Leilão Finalizado</a>
+                    </div>
+                    
                 </div>
             </div>
         </div>

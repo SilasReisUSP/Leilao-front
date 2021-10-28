@@ -6,4 +6,5 @@ export class Produto{
     dataInicio: string;
     dataFinal: string;
     fotoLeilao: File;
+    status: Number;
   }
