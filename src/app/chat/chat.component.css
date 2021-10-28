@@ -326,7 +326,7 @@ a {
 .alert  {
 	position: fixed;
 	top: 0;
-	right: 0.5rem;
+	left: 0.5rem;
 	border:1px solid rgba(0, 0, 0, 0.2);
 	border-radius: 0.25rem;
 	padding: 2rem;

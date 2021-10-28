@@ -24,6 +24,8 @@ import { UsuarioService } from './services/usuario.service';
 import { ProdutoService } from './services/produto.service';
 import { MeusLeiloesComponent } from './meus-leiloes/meus-leiloes.component';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
