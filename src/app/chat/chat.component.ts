@@ -22,6 +22,8 @@ import { Produto } from "../models/Produto";
 import { ProdutoResponse } from "../models/ProdutoResponse";
 import { getUser } from "../helpers";
 import { utilsBr } from "js-brasil";
+import { timer } from "rxjs";
+import { CountdownComponent, CountdownConfig } from "ngx-countdown";
 
 @Component({
   selector: "app-chat",
@@ -40,14 +42,21 @@ export class ChatComponent implements OnInit, AfterViewInit {
   produto: ProdutoResponse;
   currentValue: number;
   public isVisible: boolean = false;
+  myDate: any;
 
   MASKS = utilsBr.MASKS;
 
   timeLeft: number = 6000;
   interval: any;
 
+  config: CountdownConfig = {
+    leftTime: 600
+  };
+
   @ViewChild("chatMessages") chatMessagesElem: ElementRef;
   @ViewChildren("messages") messagesElem: QueryList<any>;
+
+  @ViewChild('cd', { static: false }) private countdown: CountdownComponent;
 
   constructor(
     private socketIoService: SocketioService,
@@ -80,13 +89,19 @@ export class ChatComponent implements OnInit, AfterViewInit {
       if (data.currentValue) {
         this.currentValue = data.currentValue;
       }
+      // if (data.currentTime && this.config.leftTime === 600) {
+      //   console.log('data', data);
+      //   // this.config.leftTime = data.currentTime
+      //   this.config.leftTime = 400
+      //   console.log('this', this.config.leftTime)
+      // }
     });
 
     this.produtoService.getProdutoId(this.idLeilao, this.token).subscribe(
       (produto: ProdutoResponse) => {
         this.produto = produto;
         this.username = getUser().nome || "";
-        this.currentValue = Number(produto.valorInicial) || 0;
+        this.currentValue = produto.valorInicial ? utilsBr.currencyToNumber(produto.valorInicial) : 0;
         this.socketIoService.joinRoom(this.username, this.room, produto.nome);
       },
       (err) => console.log(err)
@@ -100,6 +115,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     );
 
     this.startTimer();
+    this.countdown.begin();
   }
 
   ngAfterViewInit() {
@@ -120,6 +136,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     let userValue = utilsBr.currencyToNumber(this.message);
 
     console.log("userVal", userValue);
+    console.log("thisCurrent", this.currentValue);
 
     //se o valor for maior que o valor atual da sala entao a mensagem e enviada ao socket
     if (userValue > this.currentValue) {
@@ -156,5 +173,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
     if (!this.message.includes(",") && this.message != "") {
       this.message = this.message + ",00";
     }
+  }
+
+  handleEvent(e: any) {
+    console.log('event', e);
   }
 }

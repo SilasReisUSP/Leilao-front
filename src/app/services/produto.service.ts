@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import { Produto } from '../models/Produto';
+import { utilsBr } from "js-brasil";
 
 @Injectable()
 export class ProdutoService {
@@ -28,7 +29,7 @@ export class ProdutoService {
     formData.append('nome', produto?.nome);
     formData.append('dataInicio', produto?.dataInicio);
     formData.append('dataFinal', produto?.dataFinal);
-    formData.append('valorInicial', produto?.valorInicial);
+    formData.append('valorInicial', String(utilsBr.currencyToNumber(produto?.valorInicial)));
     if(!this.httpOptions.headers.has('Authorization'))
       this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
     return this.http.post(this.produtoUrl+"products", formData, this.httpOptions)

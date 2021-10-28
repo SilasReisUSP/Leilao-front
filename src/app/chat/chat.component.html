@@ -77,7 +77,8 @@
         </div>
         <header class="chat-header">
           <h1><i class="fa fa-gavel" aria-hidden="true"></i> Chat</h1>
-          <p>{{ timeLeft }}</p>
+          <!-- <p>{{ timeLeft }}</p> -->
+          <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
         </header>
         <main class="chat-main">
           <div class="chat-sidebar">

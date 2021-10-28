@@ -65,7 +65,7 @@ export class SocketioService {
   }
 
   getCurrentValue() {
-    return new Observable<{ currentValue: number }>((observer) => {
+    return new Observable<{ currentValue: number, currentTime?: number }>((observer) => {
       this.socket.on("currentValue", (data) => {
         observer.next(data);
       });

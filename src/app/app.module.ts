@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { rootRouterConfig } from './app.routes';
 import { APP_BASE_HREF } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CountdownModule } from "ngx-countdown";
 
 import { AppComponent } from './app.component';
 import { CadastroUsuarioComponent } from './cadastro/cadastro-usuario/cadastro-usuario.component';
@@ -45,6 +46,7 @@ import { MeusLeiloesComponent } from './meus-leiloes/meus-leiloes.component';
     TextMaskModule,
     NgxPaginationModule,
     FontAwesomeModule,
+    CountdownModule,
     [RouterModule.forRoot(rootRouterConfig, {useHash: false})]
   ],
   providers: [
