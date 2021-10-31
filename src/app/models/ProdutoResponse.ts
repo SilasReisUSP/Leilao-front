@@ -1,3 +1,4 @@
+//Classe utilizada para recebimento dos produtos pelo back
 export class ProdutoResponse {
   dataFinal: string;
   dataInicio: string;

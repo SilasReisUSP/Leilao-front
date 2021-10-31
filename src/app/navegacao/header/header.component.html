@@ -6,14 +6,17 @@
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navPrincipal">
         <ul class="navbar-nav ml-auto">
-          <!--TAGS USUARIO DESLOGADO-->
+          <!--ROTAS PARA USUARIO DESLOGADO-->
           <li class="nav-item" *ngIf="token == ''">
             <a class="nav-link" [routerLink]="['/Cadastro']" >Cadastro</a>
           </li>
+
           <li class="nav-item" *ngIf="token == ''">
             <a class="nav-link" [routerLink]="['/Login']" >Login</a>
           </li>
-          <!--TAGS USUARIO LOGADO-->
+          <!--FIM ROTAS PARA USUARIO DESLOGADO-->
+          
+          <!--INICIO ROTAS PARA USUARIO LOGADO-->
           <li class="nav-item" *ngIf="token != ''">
             <a class="nav-link" [routerLink]="['/Home']">Home</a>
           </li>
@@ -29,6 +32,7 @@
           <li class="nav-item" *ngIf="token != ''">
             <a class="nav-link" (click)="sair()">Sair</a>
           </li>
+          <!--FIM ROTAS PARA USUARIO LOGADO-->
         </ul>
       </div>
     </div>

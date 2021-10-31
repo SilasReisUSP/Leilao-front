@@ -1,3 +1,4 @@
+//Classe de Usuario, utilizada para armazenar dados do usuario de forma tipada
 export class Usuario{
     nome: string;
     apelido: string;

@@ -27,29 +27,26 @@ import Swal from 'sweetalert2'
   styleUrls: ["./chat.component.css"],
 })
 export class ChatComponent implements OnInit, AfterViewInit {
+  //Variaveis para manipulacao dos dados
   username: string;
   room: string | null;
   roomName: string;
   message: string;
   messages: MessageSocketResponse[] = [];
   users: UserSocketResponse[] = [];
-  idLeilao: string | null;
   token: string;
   produto: ProdutoResponse;
   currentValue: number;
   public isVisible: boolean = false;
   myDate: any;
-
-  MASKS = utilsBr.MASKS;
-
   interval: any;
-
   config: CountdownConfig
 
   @ViewChild("chatMessages") chatMessagesElem: ElementRef;
+  @ViewChild('cd', { static: false }) private countdown: CountdownComponent;
   @ViewChildren("messages") messagesElem: QueryList<any>;
 
-  @ViewChild('cd', { static: false }) private countdown: CountdownComponent;
+
 
   constructor(
     private socketIoService: SocketioService,
@@ -60,40 +57,60 @@ export class ChatComponent implements OnInit, AfterViewInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.usuarioService.token.subscribe((valor) => (this.token = valor));
 
-    if (this.token == "") {
-      this.routes.navigate(["/Login"]);
+    //Recebe o valor do token mais atual
+    this.usuarioService.token.subscribe(valor => this.token = valor)
+
+    //Se nao tiver token, o usuario e redirecionado para a rota de Login
+    if(this.token == '') {
+      this.routes.navigate(['/Login']);
     }
 
-    this.idLeilao = this.routeId.snapshot.paramMap.get("id");
-    this.room = this.idLeilao;
+    //recebendo id do leilao e armazenando na variavel room
+    this.room = this.routeId.snapshot.paramMap.get("id");
 
+    //Conectando ao socket
     this.socketIoService.connect();
+    //Recebendo os usuario das sala do back
     this.socketIoService.getRoomAndUsers().subscribe((data) => {
       const { users } = data;
+      //se houver usuario, eles sao armazenados, sendo passados no metodo setUsers
       if (users) this.setUsers(users);
     });
+
+    //Recebendo mensagens pelo socket
     this.socketIoService.receiveMessages().subscribe((message) => {
+      //Armazenando as mensagens pelo metodo setMessages
       this.setMessages([message]);
     });
+
+    //Recebendo o valor atual do produto pelo socket e armazenando na variavel currentValue
     this.socketIoService.getCurrentValue().subscribe((data) => {
       if (data.currentValue) {
         this.currentValue = data.currentValue;
       }
     });
 
-    this.produtoService.getProdutoId(this.idLeilao, this.token).subscribe(
+    //Buscando dados do produto, caso seja respondido com sucesso, e armazenado nas variaveis para inicializacao do chat
+    //Este metodo fica escutando todas as resposas do back, entao algumas variaveis ja preenchidas anteriormente sao novamente
+    //preenchidas para sempre estarem atualizadas
+    this.produtoService.getProdutoId(this.room, this.token).subscribe(
       (produto: ProdutoResponse) => {
         this.produto = produto;
-        this.username = getUser().nome || "";
-        this.currentValue = produto.valorInicial ? utilsBr.currencyToNumber(produto.valorInicial) : 0;
+        //buscando o nome do usuario
+        this.username = getUser().nome || "";        
+        //Buscando dados da sala para atualizacao constante pelo sockete
         this.socketIoService.joinRoom(this.username, this.room, produto.nome).subscribe(
           (data) => {
+            //Caso seja recebido do back novas informacoes (mensagem, usuarios, valor atual, tempo restante) 
+            //e elas nao forem indefinidas, serao atualizadas
             const { messages, users, currentValue, leftTime } = data;
             if (messages) this.setMessages(messages);
             if (users) this.setUsers(users);
             if (currentValue) this.currentValue = currentValue;
+            //configurando o tempo restante (leftTime)
+            //(notify) Quando faltar 1 segundo, sera chamada a funcao handleEvent que informara o 
+            //usuario que o chat foi finalizado
             if(leftTime)this.config = {
               leftTime: leftTime,
               notify: [1]
@@ -106,8 +123,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
             }
           }
         );
-      },
-      (err) => console.log(err)
+      }
     );
 
     this.usuarioService.getUsuario(this.token).subscribe(
@@ -117,6 +133,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       (err) => console.log(err)
     );
 
+    //iniciando o contador 
     if (this.countdown) this.countdown.begin();
   }
 
@@ -152,10 +169,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.message = "";
   }
 
+  //Armazenando mensagens da sala
   setMessages(messages: MessageSocketResponse[]) {
     this.messages = [...this.messages, ...messages];
   }
 
+  //Armazenando usuarios da sala
   setUsers(users: UserSocketResponse[]) {
     this.users = users;
   }

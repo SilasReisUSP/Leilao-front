@@ -3,10 +3,8 @@ import { Router } from '@angular/router';
 import { UsuarioService } from '../services/usuario.service';
 import { ProdutoService } from '../services/produto.service';
 import { Produto } from '../models/Produto';
-import { faArrowAltCircleLeft, faArrowAltCircleRight} from '@fortawesome/free-solid-svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
-import { getUser } from '../helpers';
 
 
 @Component({
@@ -15,27 +13,30 @@ import { getUser } from '../helpers';
 })
 export class HomeComponent implements OnInit {
 
+  //Variavel utilizada para paginacao
   paginaAtual = 1
+  //Variavel que armazena token do usuario para enviar ao servico
   token: string
+  //Armazenamento da lista de leiloes
   leilaoList: Produto[] = []
-  faArrowAltCircleLeft = faArrowAltCircleLeft;
-  faArrowAltCircleRight = faArrowAltCircleRight;
   
   constructor(private routes: Router, private usuarioService: UsuarioService
     ,private produtoService: ProdutoService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
 
+    //Recebe o valor do token mais atual
     this.usuarioService.token.subscribe(valor => this.token = valor)
 
+    //Se nao tiver token, o usuario e redirecionado para a rota de Login
     if(this.token == '') {
       this.routes.navigate(['/Login']);
     }
 
-    const usuario = getUser();
-
+    //Buscando produtos que o usuario podera participar do leilao, passando o token como parametro
     this.produtoService.getProdutos(this.token)
     .subscribe(rst => {
+      //Se houver uma resposta do servidor entao e mapeado todos os dados recebido na constante data
       const data = rst.data.map((data: any) => ({ 
         id: data._id,
         dataFinal: data.dataFinal, 
@@ -46,16 +47,9 @@ export class HomeComponent implements OnInit {
         fotoLeilao: environment.FILES+data.urlImagem,
         usuario: data.usuario,
         status: data.status
-      }))
-      // .filter((data: any) => data.usuario !== usuario._id);      
+      }))   
+      //todos os produtos que estao em data sao passados para leilaoList, que renderiza no html
       this.leilaoList = data
-    },
-     err => console.log(err))
-  }
-
-  changePage(page: number) {
-    this.produtoService.getProdutos(this.token)
-    .subscribe(rst => this.leilaoList = rst,
-     err => console.log(err))
+    })
   }
 }

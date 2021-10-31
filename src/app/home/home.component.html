@@ -1,11 +1,13 @@
 <div class="container main-container">
     <div class="row text-center">
+        <!--Tag que faz o controle de paginacao, filtrando os dados que aparecem ao usuario-->
         <pagination-controls (pageChange)="paginaAtual = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+       <!--Para cada leilao em leilaolist, e renderizado um card que traz as informacoes a serem visualizadas. Somente
+        aparece 6 itens por pagina e em cada linha ocupada 3 itens-->
         <div *ngFor="let leilao of leilaoList | paginate: { itemsPerPage: 6, currentPage: paginaAtual }; let i = index" class="col-md-4" style="padding-bottom: 30px">
             <div class="card h-100">
                 <a class="text-decoration-none">
                     <div style="align-content:center;">
-                        <!-- <img src="data:image/png;base64,leilao.fotoLeilao" height="164px" width="253px" alt=""> -->
                         <img [src]="leilao.fotoLeilao" height="164px" width="253px" alt="">
                     </div>
                 </a>
@@ -13,6 +15,7 @@
 
                 <p>Lance inicial: {{ leilao.valorInicial | currency: 'BRL' }}</p>
 
+                <!--Para cada status possivel, sera apresentado um botao unico-->
                 <div class="card-footer">
                     <div *ngIf="leilao.status == 0">
                         <button type="button" disabled class="btn btn-primary">Esperar Data de Início: {{ leilao.dataInicio | date: 'dd/MM/yyyy HH:mm' }}</button>

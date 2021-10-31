@@ -14,6 +14,7 @@
                     <div class="col-md-12">
                         <label for="Senha" class="form-label">Senha</label>
                         <input type="password" class="form-control" id="Senha" required placeholder="Digite sua senha" formControlName="senha">
+                        <!--Se a mensagem de erro estiver preenchida, ela e apresentada-->
                         <div *ngIf="errorMessage" class="text-danger">
                             <p>{{errorMessage}}</p>
                         </div>
