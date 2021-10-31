@@ -161,4 +161,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
   handleEvent(e: any) {
     console.log('event', e);
   }
+
+  checkTextItem(text: string){
+    if(isNaN(Number(text)))
+      return true
+    else
+      return false
+  }
 }

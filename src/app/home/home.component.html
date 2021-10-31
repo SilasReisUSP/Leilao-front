@@ -15,13 +15,13 @@
 
                 <div class="card-footer">
                     <div *ngIf="leilao.status == 0">
-                        <a class="btn btn-primary">Esperar Data de Início: {{ leilao.dataInicio | date: 'dd/MM/yyyy' }}</a>
+                        <button type="button" disabled class="btn btn-primary">Esperar Data de Início: {{ leilao.dataInicio | date: 'dd/MM/yyyy HH:mm' }}</button>
                     </div>
                     <div *ngIf="leilao.status == 1">
-                        <a class="btn btn-success" [routerLink]="['/chat', leilao.id]">Participar</a>
+                        <button type="button" class="btn btn-success" [routerLink]="['/chat', leilao.id]">Participar</button>
                     </div>
                     <div *ngIf="leilao.status == 2">
-                        <a class="btn btn-danger">Leilão Finalizado</a>
+                        <button type="button" disabled class="btn btn-danger">Leilão Finalizado</button>
                     </div>
                     
                 </div>

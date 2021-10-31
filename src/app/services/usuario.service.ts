@@ -37,8 +37,18 @@ export class UsuarioService {
   }
 
   getUsuario(tokenUser: string) : Observable<Usuario>{
+    if(this.httpOptions.headers.has('Authorization'))
+      this.httpOptions.headers = this.httpOptions.headers.delete('Authorization')
     if(!this.httpOptions.headers.has('Authorization'))
       this.httpOptions.headers = this.httpOptions.headers.append('Authorization', tokenUser)
     return this.http.get<Usuario>(this.usuarioUrl+"user", this.httpOptions)
+  }
+
+  saida(tokenUser: string) : Observable<any> {
+    if(this.httpOptions.headers.has('Authorization'))
+      this.httpOptions.headers = this.httpOptions.headers.delete('Authorization')
+    if(!this.httpOptions.headers.has('Authorization'))
+      this.httpOptions.headers = this.httpOptions.headers.append('Authorization', tokenUser)
+    return this.http.post<Usuario>(this.usuarioUrl+"saida", this.httpOptions)
   }
 }

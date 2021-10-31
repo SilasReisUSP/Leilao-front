@@ -10,7 +10,7 @@ import { UsuarioService } from '../../services/usuario.service';
 })
 export class HeaderComponent implements OnInit {
 
-  token!: string | null;
+  token!: string;
   
   constructor(
     private routes: Router,
@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
   }
 
   sair() {
+    this.usuarioService.saida(this.token);
     this.usuarioService.armazenarDadosLogin('');
     // TODO: DESCONECTAR SOCKET
     this.socketIoService.disconnect();
