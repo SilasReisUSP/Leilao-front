@@ -5,4 +5,5 @@ export class JoinRoomResponse {
   users?: UserSocketResponse[];
   messages?: MessageSocketResponse[];
   currentValue?: number  
+  leftTime?: number
 }

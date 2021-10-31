@@ -19,6 +19,7 @@ import { ProdutoResponse } from "../models/ProdutoResponse";
 import { getUser } from "../helpers";
 import { utilsBr } from "js-brasil";
 import { CountdownComponent, CountdownConfig } from "ngx-countdown";
+import Swal from 'sweetalert2'
 
 @Component({
   selector: "app-chat",
@@ -43,9 +44,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   interval: any;
 
-  config: CountdownConfig = {
-    leftTime: 600
-  };
+  config: CountdownConfig
 
   @ViewChild("chatMessages") chatMessagesElem: ElementRef;
   @ViewChildren("messages") messagesElem: QueryList<any>;
@@ -91,10 +90,20 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.currentValue = produto.valorInicial ? utilsBr.currencyToNumber(produto.valorInicial) : 0;
         this.socketIoService.joinRoom(this.username, this.room, produto.nome).subscribe(
           (data) => {
-            const { messages, users, currentValue } = data;
+            const { messages, users, currentValue, leftTime } = data;
             if (messages) this.setMessages(messages);
             if (users) this.setUsers(users);
-            if (currentValue) this.currentValue = currentValue
+            if (currentValue) this.currentValue = currentValue;
+            if(leftTime)this.config = {
+              leftTime: leftTime,
+              notify: [1]
+            };
+            else{
+              this.config = {
+                leftTime: 10,
+                notify: [1]
+              }
+            }
           }
         );
       },
@@ -159,7 +168,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   handleEvent(e: any) {
-    console.log('event', e);
+    if(e.action === 'notify') {
+      Swal.fire({
+        icon: 'info',
+         title: 'Tempo finalizado',
+         text: 'O tempo do leilão foi finalizado, clique para ir à página inicial',
+         confirmButtonText: 'Home'
+     }).then((result) => {
+      this.routes.navigate(["/Home"]);
+     });
+     
+    }
+      
   }
 
   checkTextItem(text: string){
