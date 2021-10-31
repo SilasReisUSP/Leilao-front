@@ -28,6 +28,7 @@ import Swal from 'sweetalert2'
 })
 export class ChatComponent implements OnInit, AfterViewInit {
   username: string;
+  userId: string;
   room: string | null;
   roomName: string;
   message: string;
@@ -86,9 +87,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.produtoService.getProdutoId(this.idLeilao, this.token).subscribe(
       (produto: ProdutoResponse) => {
         this.produto = produto;
-        this.username = getUser().nome || "";
+        this.userId = getUser()._id || "";
+        this.username = getUser().nome || ""
         this.currentValue = produto.valorInicial ? utilsBr.currencyToNumber(produto.valorInicial) : 0;
-        this.socketIoService.joinRoom(this.username, this.room, produto.nome).subscribe(
+        this.socketIoService.joinRoom(this.userId, this.room, this.username, produto.nome).subscribe(
           (data) => {
             const { messages, users, currentValue, leftTime } = data;
             if (messages) this.setMessages(messages);

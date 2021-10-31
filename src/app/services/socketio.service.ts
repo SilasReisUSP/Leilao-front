@@ -20,9 +20,9 @@ export class SocketioService {
     this.socket = io(environment.SOCKET_ENDPOINT);
   }
 
-  joinRoom(username: string, room: any, roomName?: string): Observable<JoinRoomResponse> {
+  joinRoom(userId: string, room: any, username: string, roomName?: string): Observable<JoinRoomResponse> {
     return new Observable<JoinRoomResponse>((observer) => {
-      this.socket.emit("joinRoom", { username, room, roomName }, (
+      this.socket.emit("joinRoom", { userId, room, roomName, username }, (
         data: JoinRoomResponse) => {
           observer.next(data);
        });
@@ -46,8 +46,8 @@ export class SocketioService {
 
   receiveJoinRoom() {
     return new Observable<string>((observer) => {
-      this.socket.on("joinRoom", (message) => {
-        observer.next(message);
+      this.socket.on("joinRoom", (data) => {
+        observer.next(data);
       });
     });
   }
