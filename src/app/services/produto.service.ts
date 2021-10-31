@@ -30,18 +30,24 @@ export class ProdutoService {
     formData.append('dataInicio', produto?.dataInicio);
     formData.append('dataFinal', produto?.dataFinal);
     formData.append('valorInicial', String(utilsBr.currencyToNumber(produto?.valorInicial)));
+    if(this.httpOptions.headers.has('Authorization'))
+      this.httpOptions.headers = this.httpOptions.headers.delete('Authorization')
     if(!this.httpOptions.headers.has('Authorization'))
       this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
     return this.http.post(this.produtoUrl+"products", formData, this.httpOptions)
   }
 
   getProdutos(token: string) : Observable<any> {
+    if(this.httpOptions.headers.has('Authorization'))
+      this.httpOptions.headers = this.httpOptions.headers.delete('Authorization')
     if(!this.httpOptions.headers.has('Authorization'))
       this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
     return this.http.get(this.produtoUrl+"products", this.httpOptions)
   }
 
   getMeusProdutos(token: string) : Observable<any> {
+    if(this.httpOptions.headers.has('Authorization'))
+      this.httpOptions.headers = this.httpOptions.headers.delete('Authorization')
     if(!this.httpOptions.headers.has('Authorization'))
       this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
     return this.http.get(this.produtoUrl+"myproducts", this.httpOptions)
@@ -54,6 +60,8 @@ export class ProdutoService {
   }
 
   getProdutoId(idLeilao: string | null, token: string): Observable<any> {
+    if(this.httpOptions.headers.has('Authorization'))
+      this.httpOptions.headers = this.httpOptions.headers.delete('Authorization')
     if(!this.httpOptions.headers.has('Authorization'))
       this.httpOptions.headers = this.httpOptions.headers.append('Authorization', token)
       const url = `${this.produtoUrl}products/${idLeilao}`

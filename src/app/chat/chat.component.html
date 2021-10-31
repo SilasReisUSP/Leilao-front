@@ -97,9 +97,16 @@
                 {{ item.name }}
                 <span>{{ item.time }}</span>
               </p>
-              <p class="text">
-                {{ item.text | currency: 'BRL' }}
-              </p>
+              <div *ngIf="item.text.includes('Bem-vindo'); else elseBlock">
+                <p class="text">
+                  {{ item.text }}
+                </p>
+              </div>
+              <ng-template #elseBlock>
+                <p class="text">
+                  {{ item.text | currency: 'BRL'}}
+                </p>
+            </ng-template>
             </div>
           </div>
         </main>

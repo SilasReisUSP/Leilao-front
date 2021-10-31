@@ -12,10 +12,6 @@
                 <h4 class="card-title">{{ leilao.nome | titlecase }}</h4>
 
                 <p>Lance inicial: {{ leilao.valorInicial | currency: 'BRL'}}</p>
-
-                <div class="card-footer">
-                    <a class="btn btn-primary" [routerLink]="['/chat', leilao.id]">Visualizar</a>
-                </div>
             </div>
         </div>
     </div>
