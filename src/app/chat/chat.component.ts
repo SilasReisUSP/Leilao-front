@@ -1,8 +1,6 @@
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
   ViewChild,
   QueryList,
   ViewChildren,
@@ -12,17 +10,14 @@ import {
 import { SocketioService } from "../services/socketio.service";
 import {
   MessageSocketResponse,
-  SendMessage,
   UserSocketResponse,
 } from "./types";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UsuarioService } from "../services/usuario.service";
 import { ProdutoService } from "../services/produto.service";
-import { Produto } from "../models/Produto";
 import { ProdutoResponse } from "../models/ProdutoResponse";
 import { getUser } from "../helpers";
 import { utilsBr } from "js-brasil";
-import { timer } from "rxjs";
 import { CountdownComponent, CountdownConfig } from "ngx-countdown";
 
 @Component({
@@ -46,7 +41,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   MASKS = utilsBr.MASKS;
 
-  timeLeft: number = 6000;
   interval: any;
 
   config: CountdownConfig = {
@@ -78,8 +72,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
     this.socketIoService.connect();
     this.socketIoService.getRoomAndUsers().subscribe((data) => {
-      const { messages, users } = data;
-      if (messages) this.setMessages(messages);
+      const { users } = data;
       if (users) this.setUsers(users);
     });
     this.socketIoService.receiveMessages().subscribe((message) => {
@@ -89,12 +82,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
       if (data.currentValue) {
         this.currentValue = data.currentValue;
       }
-      // if (data.currentTime && this.config.leftTime === 600) {
-      //   console.log('data', data);
-      //   // this.config.leftTime = data.currentTime
-      //   this.config.leftTime = 400
-      //   console.log('this', this.config.leftTime)
-      // }
     });
 
     this.produtoService.getProdutoId(this.idLeilao, this.token).subscribe(
@@ -102,7 +89,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.produto = produto;
         this.username = getUser().nome || "";
         this.currentValue = produto.valorInicial ? utilsBr.currencyToNumber(produto.valorInicial) : 0;
-        this.socketIoService.joinRoom(this.username, this.room, produto.nome);
+        this.socketIoService.joinRoom(this.username, this.room, produto.nome).subscribe(
+          (data) => {
+            const { messages, users, currentValue } = data;
+            if (messages) this.setMessages(messages);
+            if (users) this.setUsers(users);
+            if (currentValue) this.currentValue = currentValue
+          }
+        );
       },
       (err) => console.log(err)
     );
@@ -114,8 +108,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       (err) => console.log(err)
     );
 
-    this.startTimer();
-    this.countdown.begin();
+    if (this.countdown) this.countdown.begin();
   }
 
   ngAfterViewInit() {
@@ -156,16 +149,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   setUsers(users: UserSocketResponse[]) {
     this.users = users;
-  }
-
-  startTimer() {
-    this.interval = setInterval(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
-        this.timeLeft = 60;
-      }
-    }, 1000);
   }
 
   formatarValorFinal() {
