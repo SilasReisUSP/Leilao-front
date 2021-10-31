@@ -5,6 +5,7 @@
                 <div class="row">
                     <h3>Cadastrar leilão</h3>
                 </div>
+                <!--Para cada input do forms, existe mensagens de validacoes caso ocorra algum erro-->
                 <form class="row g-3 align-items-center" [formGroup]="cadastroPForm" (ngSubmit)="cadastrarProduto()">
                     <div class="col-md-12">
                         <label for="Produto" class="form-label">Título do leilão</label>
@@ -67,6 +68,7 @@
                         </div>
                     </div>
 
+                    <!--O botao so ficara ativo se todo o form estiver valido-->
                     <div class="col-md-12">
                         <button class="btn btn-primary" type="submit" [disabled]="!cadastroPForm.valid" >Cadastrar</button>
                     </div>

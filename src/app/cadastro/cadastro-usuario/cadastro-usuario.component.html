@@ -5,6 +5,7 @@
                 <div class="row">
                     <h3>Cadastre-se</h3>
                 </div>
+                <!--Para cada input do cadastro, ha validacoes e caso alguma de erro, e informada o motivo-->
                 <form class="row g-3 align-items-center" [formGroup]="cadastroForm" (ngSubmit)="cadastrarUsuario()">
                     <div class="col-md-12">
                         <label for="Usuario" class="form-label">Nome</label>
@@ -71,6 +72,7 @@
                             <p>Senha muito longa</p>
                         </div>
                     </div>
+                    <!--O botao so estara ativado se todas as validacoes estiverem corretas-->
                     <div class="col-md-12">
                         <button class="btn btn-primary" type="submit" [disabled]="!cadastroForm.valid">Cadastrar</button>
                     </div>

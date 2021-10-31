@@ -21,11 +21,10 @@ export class SocketioService {
     this.socket = io(environment.SOCKET_ENDPOINT);
   }
 
-  //Metodo que envia o usuario, o id da sala e o nome da sala para o endpoint joinRoom 
-  //Recebe os dados atualizado por meio do socket
-  joinRoom(username: string, room: any, roomName?: string): Observable<JoinRoomResponse> {
+  //Metodo chamado para buscar e retornar dados da sala por meio do socket
+  joinRoom(userId: string, room: any, username: string, roomName?: string): Observable<JoinRoomResponse> {
     return new Observable<JoinRoomResponse>((observer) => {
-      this.socket.emit("joinRoom", { username, room, roomName }, (
+      this.socket.emit("joinRoom", { userId, room, roomName, username }, (
         data: JoinRoomResponse) => {
           //Este observer permite a leitura de dados constante a cada envio do back para o front
           observer.next(data);

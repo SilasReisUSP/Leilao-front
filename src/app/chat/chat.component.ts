@@ -29,6 +29,7 @@ import Swal from 'sweetalert2'
 export class ChatComponent implements OnInit, AfterViewInit {
   //Variaveis para manipulacao dos dados
   username: string;
+  userId: string;
   room: string | null;
   roomName: string;
   message: string;
@@ -97,10 +98,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.produtoService.getProdutoId(this.room, this.token).subscribe(
       (produto: ProdutoResponse) => {
         this.produto = produto;
-        //buscando o nome do usuario
-        this.username = getUser().nome || "";        
-        //Buscando dados da sala para atualizacao constante pelo sockete
-        this.socketIoService.joinRoom(this.username, this.room, produto.nome).subscribe(
+        this.userId = getUser()._id || "";
+        this.username = getUser().nome || ""
+        this.currentValue = produto.valorInicial ? utilsBr.currencyToNumber(produto.valorInicial) : 0;
+        this.socketIoService.joinRoom(this.userId, this.room, this.username, produto.nome).subscribe(
           (data) => {
             //Caso seja recebido do back novas informacoes (mensagem, usuarios, valor atual, tempo restante) 
             //e elas nao forem indefinidas, serao atualizadas
@@ -126,22 +127,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
       }
     );
 
-    this.usuarioService.getUsuario(this.token).subscribe(
-      (rst) => {
-        this.username = rst.nome;
-      },
-      (err) => console.log(err)
-    );
-
     //iniciando o contador 
     if (this.countdown) this.countdown.begin();
   }
 
+  //Apos iniciar a tela do usuario, o metodo scrollToBottom envia o chat para a mensagem mais recente (que estara embaixo)
   ngAfterViewInit() {
     this.scrollToBottom();
+    //Sempre que chegar mensagens novas, a div de mensagens irá para baixo (para aparecer a mensagem mais recente)
     this.messagesElem.changes.subscribe(this.scrollToBottom);
   }
 
+  //rolando a tela do chat para baixo
   scrollToBottom = () => {
     try {
       this.chatMessagesElem.nativeElement.scrollTop =
@@ -151,15 +148,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   sendMessage() {
     //recebendo o valor digitado pelo usuario
-    // let userValue = Number(this.message.replace("R$", ""));
     let userValue = utilsBr.currencyToNumber(this.message);
-
-    console.log("userVal", userValue);
-    console.log("thisCurrent", this.currentValue);
 
     //se o valor for maior que o valor atual da sala entao a mensagem e enviada ao socket
     if (userValue > this.currentValue) {
-      console.log("userVal", userValue);
       this.socketIoService.sendMessage(userValue);
     } else {
       //informando usuario de valor invalido
@@ -179,6 +171,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.users = users;
   }
 
+  //Formatando mensagem do usuario para visualização
   formatarValorFinal() {
     let teste = this.message;
     if (!this.message.includes(",") && this.message != "") {
@@ -186,6 +179,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
   }
 
+  //Evento chamado quando o tempo chega a 1, quando isso corre aparece um popup informando o usuario que o leilao foi finalizado
+  //ao clicar no botao ele e redirecionado para a tela de Home
   handleEvent(e: any) {
     if(e.action === 'notify') {
       Swal.fire({
@@ -201,6 +196,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       
   }
 
+  //Metodo utilizado no .html para verificar se a mensagem e um numero ou uma string
   checkTextItem(text: string){
     if(isNaN(Number(text)))
       return true
