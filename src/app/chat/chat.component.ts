@@ -91,7 +91,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.currentValue = produto.valorInicial ? utilsBr.currencyToNumber(produto.valorInicial) : 0;
         this.socketIoService.joinRoom(this.username, this.room, produto.nome).subscribe(
           (data) => {
-            const { messages, users, currentValue } = data;
+            const { messages, users, currentValue, leftTime } = data;
             if (messages) this.setMessages(messages);
             if (users) this.setUsers(users);
             if (currentValue) this.currentValue = currentValue
