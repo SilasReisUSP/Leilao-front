@@ -175,7 +175,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
         icon: 'info',
          title: 'Tempo finalizado',
          text: 'O tempo do leilão foi finalizado, clique para ir à página inicial',
-         confirmButtonText: 'Home'
+         confirmButtonText: 'Concordo!'
      }).then((result) => {
       this.routes.navigate(["/Home"]);
      });
