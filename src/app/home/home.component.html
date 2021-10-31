@@ -21,7 +21,7 @@
                         <button type="button" class="btn btn-success" [routerLink]="['/chat', leilao.id]">Participar</button>
                     </div>
                     <div *ngIf="leilao.status == 2">
-                        <button type="button" class="btn btn-danger">Leilão Finalizado</button>
+                        <button type="button" disabled class="btn btn-danger">Leilão Finalizado</button>
                     </div>
                     
                 </div>
