@@ -43,6 +43,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   interval: any;
   config: CountdownConfig
 
+  MASKS = utilsBr.MASKS;
+
   @ViewChild("chatMessages") chatMessagesElem: ElementRef;
   @ViewChild('cd', { static: false }) private countdown: CountdownComponent;
   @ViewChildren("messages") messagesElem: QueryList<any>;
@@ -113,7 +115,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
             //(notify) Quando faltar 1 segundo, sera chamada a funcao handleEvent que informara o 
             //usuario que o chat foi finalizado
             if(leftTime)this.config = {
-              leftTime: leftTime,
+              leftTime: leftTime+3,
               notify: [1]
             };
             else{
@@ -183,17 +185,33 @@ export class ChatComponent implements OnInit, AfterViewInit {
   //ao clicar no botao ele e redirecionado para a tela de Home
   handleEvent(e: any) {
     if(e.action === 'notify') {
-      Swal.fire({
-        icon: 'info',
-         title: 'Tempo finalizado',
-         text: 'O tempo do leilão foi finalizado, clique para ir à página inicial',
-         confirmButtonText: 'Concordo!'
-     }).then((result) => {
-      this.routes.navigate(["/Home"]);
-     });
-     
+      this.produtoService.getProdutoId(this.room, this.token).subscribe(
+        (produto: ProdutoResponse) => {
+          const { valorFinal, usuarioGanhador } = produto;
+          Swal.fire({
+            icon: 'info',
+            title: 'Tempo finalizado',
+            html: `
+              <p>O tempo do leilão foi finalizado!</p>
+              <p>Usuário ganhador: ${usuarioGanhador}</p>
+              <p>Valor final: ${valorFinal}</p>
+              <p>clique para ir à página inicial</p>
+            `,
+            confirmButtonText: 'Concordo!'
+        }).then((result) => {
+          this.routes.navigate(["/Home"]);
+        });
+      }, (error) => {
+        Swal.fire({
+          icon: 'info',
+          title: 'Tempo finalizado',
+          text: 'O tempo do leilão foi finalizado, clique para ir à página inicial',
+          confirmButtonText: 'Concordo!'
+        }).then((result) => {
+          this.routes.navigate(["/Home"]);
+        });
+      })
     }
-      
   }
 
   //Metodo utilizado no .html para verificar se a mensagem e um numero ou uma string

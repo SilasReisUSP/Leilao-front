@@ -8,4 +8,6 @@ export class ProdutoResponse {
   usuario: string;
   valorInicial: string;
   _id: string;
+  valorFinal: number;
+  usuarioGanhador: string;
 }

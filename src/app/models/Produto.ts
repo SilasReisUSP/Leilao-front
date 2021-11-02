@@ -7,5 +7,7 @@ export class Produto{
     dataInicio: string;
     dataFinal: string;
     fotoLeilao: File;
-    status: Number;
+    status: number;
+    valorFinal: number;
+    usuarioGanhador: string;
   }

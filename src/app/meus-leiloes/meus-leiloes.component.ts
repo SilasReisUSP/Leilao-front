@@ -44,7 +44,9 @@ export class MeusLeiloesComponent implements OnInit {
         nome: data.nome, 
         valorInicial: data.valorInicial,
         fotoLeilao: environment.FILES+data.urlImagem,
-        usuario: data.usuario
+        usuario: data.usuario,
+        usuarioGanhador: data.usuarioGanhador,
+        valorFinal: data.valorFinal
       }))
       //todos os produtos que estao em data sao passados para leilaoList, que renderiza no html
       this.leilaoList = data
