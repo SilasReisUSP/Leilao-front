@@ -4,8 +4,8 @@ import { NgBrazilValidators } from 'ng-brazil';
 import { utilsBr } from 'js-brasil';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2'
-
+import Swal from 'sweetalert2';
+import { SocketioService } from '../../services/socketio.service';
 
 
 @Component({
@@ -18,9 +18,10 @@ export class CadastroUsuarioComponent implements OnInit {
   MASKS = utilsBr.MASKS;
  
   constructor(private cadastroUsuarioService: UsuarioService,
-              private routes: Router) { 
+              private routes: Router, private socketService:SocketioService) { 
   }
   ngOnInit(): void {
+    this.socketService.disconnect()
 
     //Setando inputs do form com suas respectivas validacoes
     this.cadastroForm= new FormGroup({

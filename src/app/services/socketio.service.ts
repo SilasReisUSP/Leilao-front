@@ -39,6 +39,7 @@ export class SocketioService {
         "roomUsers",
         (data: RoomUsers) => {
           //Este observer permite a leitura de dados constante a cada envio do back para o front
+          console.log(data)
           observer.next(data);
         }
       );
@@ -48,6 +49,13 @@ export class SocketioService {
   //Envia a mensagem do usuario para o back por meio do socket na rota /message
   sendMessage(data: string | number) {
     this.socket.emit("message", data);
+  }
+
+  disconnect() {
+    if(this.socket !== undefined){
+      this.socket.emit("disconnected");
+    }
+    
   }
 
   //Metodo que recebe a sala que o usuario entrou
@@ -79,4 +87,5 @@ export class SocketioService {
       });
     });
   }
+
 }

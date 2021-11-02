@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { ProdutoService } from '../../services/produto.service';
 import { UsuarioService } from '../../services/usuario.service';
-
+import { SocketioService } from '../../services/socketio.service';
 import { Router } from '@angular/router';
 import { CustomValidators } from 'ng2-validation';
 import { utilsBr } from 'js-brasil';
@@ -20,10 +20,10 @@ export class CadastroProdutoComponent implements OnInit {
   token!: string;
 
   constructor(private routes: Router, private cadastroProdutoService: ProdutoService,
-     private usuarioService: UsuarioService) { }
+     private usuarioService: UsuarioService, private socketService:SocketioService) { }
 
   ngOnInit(): void {
-
+    this.socketService.disconnect()
     this.usuarioService.token.subscribe(valor => this.token = valor);
 
     //Validando se o usuario esta logado

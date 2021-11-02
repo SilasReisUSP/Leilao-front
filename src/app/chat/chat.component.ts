@@ -115,7 +115,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
             //(notify) Quando faltar 1 segundo, sera chamada a funcao handleEvent que informara o 
             //usuario que o chat foi finalizado
             if(leftTime)this.config = {
-              leftTime: leftTime+3,
+              leftTime: leftTime+6,
               notify: [1]
             };
             else{

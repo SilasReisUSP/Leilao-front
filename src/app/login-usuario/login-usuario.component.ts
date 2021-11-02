@@ -18,11 +18,12 @@ export class LoginUsuarioComponent implements OnInit {
 
   constructor(private usuarioService: UsuarioService,
               private routes: Router,
-              private socketioService: SocketioService
+              private socketioService: SocketioService,
+              private socketService:SocketioService
   ) { }
 
   ngOnInit(): void {
-
+    this.socketService.disconnect()
     //Atualizando o token do component local por meio do servico
     this.usuarioService.token.subscribe(valor => this.token = valor);
 

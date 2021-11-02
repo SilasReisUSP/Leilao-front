@@ -5,6 +5,7 @@ import { Produto } from '../models/Produto';
 import { ProdutoService } from '../services/produto.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UsuarioService } from '../services/usuario.service';
+import { SocketioService } from '../services/socketio.service';
 
 @Component({
   selector: 'app-meus-leiloes',
@@ -20,10 +21,11 @@ export class MeusLeiloesComponent implements OnInit {
   leilaoList: Produto[] = []
   
   constructor(private routes: Router, private usuarioService: UsuarioService
-    ,private produtoService: ProdutoService, private sanitizer: DomSanitizer) { }
+    ,private produtoService: ProdutoService, private sanitizer: DomSanitizer 
+    ,private socketService:SocketioService) { }
 
   ngOnInit(): void {
-
+    this.socketService.disconnect()
     //Recebe o valor do token mais atual
     this.usuarioService.token.subscribe(valor => this.token = valor)
 
