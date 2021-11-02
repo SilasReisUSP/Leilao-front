@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../services/usuario.service';
-import { ProdutoService } from '../services/produto.service';
+import { environment } from 'src/environments/environment';
 import { Produto } from '../models/Produto';
+import { ProdutoService } from '../services/produto.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { environment } from '../../environments/environment';
-
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html'
+  selector: 'app-meus-leiloes',
+  templateUrl: './meus-leiloes.component.html'
 })
-export class HomeComponent implements OnInit {
+export class MeusLeiloesComponent implements OnInit {
 
   //Variavel utilizada para paginacao
   paginaAtual = 1
@@ -33,10 +32,10 @@ export class HomeComponent implements OnInit {
       this.routes.navigate(['/Login']);
     }
 
-    //Buscando produtos que o usuario podera participar do leilao, passando o token como parametro
-    this.produtoService.getProdutos(this.token)
+    //Buscando os produtos do usuario, passando o token como parametro
+    this.produtoService.getMeusProdutos(this.token)
+    //Se houver uma resposta do servidor entao e mapeado todos os dados recebido na constante data
     .subscribe(rst => {
-      //Se houver uma resposta do servidor entao e mapeado todos os dados recebido na constante data
       const data = rst.data.map((data: any) => ({ 
         id: data._id,
         dataFinal: data.dataFinal, 
@@ -46,10 +45,12 @@ export class HomeComponent implements OnInit {
         valorInicial: data.valorInicial,
         fotoLeilao: environment.FILES+data.urlImagem,
         usuario: data.usuario,
-        status: data.status
-      }))   
+        usuarioGanhador: data.usuarioGanhador,
+        valorFinal: data.valorFinal
+      }))
       //todos os produtos que estao em data sao passados para leilaoList, que renderiza no html
       this.leilaoList = data
     })
   }
 }
+

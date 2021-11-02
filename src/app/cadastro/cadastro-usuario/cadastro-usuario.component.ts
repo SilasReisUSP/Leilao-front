@@ -10,8 +10,7 @@ import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-cadastro-usuario',
-  templateUrl: './cadastro-usuario.component.html',
-  providers: [UsuarioService]
+  templateUrl: './cadastro-usuario.component.html'
 })
 export class CadastroUsuarioComponent implements OnInit {
 
@@ -23,6 +22,7 @@ export class CadastroUsuarioComponent implements OnInit {
   }
   ngOnInit(): void {
 
+    //Setando inputs do form com suas respectivas validacoes
     this.cadastroForm= new FormGroup({
       nome: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
       apelido: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -35,23 +35,28 @@ export class CadastroUsuarioComponent implements OnInit {
     
   }
 
+  //Ao chamar este metod, sao enviados os valores informados para o servico, que enviara os dados para o back
   cadastrarUsuario() : void {
     var resposta = this.cadastroUsuarioService.addUsuario(this.cadastroForm.value);
-    resposta.subscribe(resultado => {
+    //Se a resposta do back for positiva (status 200) aparece um popup informando que o cadastro foi realizado com sucesso
+    resposta.subscribe(rst => {
                         Swal.fire({
                            icon: 'success',
                              title: 'Sucesso',
-                             text: "Usuário cadastro com sucesso"
+                             text: 'Cadastro realizado com sucesso'
                          });
+                         //Enviando o usuario para a tela de Login
                         this.routes.navigate(['/Login'])
                         }, 
-                       erro =>  Swal.fire({
+    //Se a resposta do back for negativa (status 400, 404, etc) aparece um popup informando o erro da mensagem
+                        rst => Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: erro.error.message
+                        text: rst.error
                       }))
   }
 
+  //Metodos facilitadores que sao chamados para verificar o valor no arquivo .html
   get nome() { return this.cadastroForm.get('nome') }
 
   get apelido() { return this.cadastroForm.get('apelido')}

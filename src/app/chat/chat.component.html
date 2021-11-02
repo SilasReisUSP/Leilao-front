@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="chat-container">
+        <!--Mensagem que informa ao usuario que o valor enviado pelo usuario e invalido-->
+        <div class="alert" [class.visible]="isVisible"> 
+          <p><strong>Valor Inválido!</strong> Insira um valor maior que o lance atual.</p>
+        </div>
+        <header class="chat-header">
+          <h1><i class="fa fa-gavel" aria-hidden="true"></i> Chat</h1>
+          <!--Contador que informa quanto tempo resta ao usuario, quando chegar a um segundo e chamado o metodo handleEvent-->
+          <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
+        </header>
+        <!--Informacoes e mensagens do chat-->
+        <main class="chat-main">
+          <div class="chat-sidebar">
+            <h3><i class="fa fa-comments"></i> Nome da sala:</h3>
+            <h2 id="room-name">{{ produto?.nome }}</h2>
+            <h3><i class="fa fa-usd" aria-hidden="true"></i> Valor Lance Atual:</h3>
+            <h2 id="valorAtual" >{{ currentValue | currency: 'BRL' }}</h2>
+            <h3><i class="fa fa-users"></i> Usuários </h3>
+            <ul id="users">
+              <li *ngFor="let user of users">{{ user.name }}</li>
+            </ul>
+          </div>
+          <div class="chat-messages" #chatMessages *ngIf="messages.length > 0">
+            <div class="message" #messages *ngFor="let item of messages">
+              <p class="meta">
+                {{ item.name }}
+                <span>{{ item.time }}</span>
+              </p>
+              <!--Se a mensagem for um numero, e utilizado o pipe de moeda para formatacao, caso contrario nao e utilizado-->
+              <div *ngIf="checkTextItem(item.text)">
+                <p class="text">
+                  {{ item.text }}
+                </p>
+              </div>
+              <div *ngIf="!checkTextItem(item.text)">
+                <p class="text">
+                  {{ item.text | currency: 'BRL' }}
+                </p>
+              </div>
+              
+            </div>
+          </div>
+        </main>
+        <!--Input para enviar o novo valor desejado-->
+        <div class="chat-form-container">
+          <form (ngSubmit)="sendMessage()" id="chat-form">
+            <input
+              id="msg"
+              type="text"
+              [(ngModel)]="message"
+              name="message_field"
+              placeholder="Envie uma mensagem..."
+              required
+              autocomplete="off"
+              class="form-control"
+              [textMask]="{ mask: MASKS.currency.textMask}"
+              (blur)="formatarValorFinal()"
+            />
+            <button type="submit" class="btn"><i class="fa fa-paper-plane"></i> Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    

@@ -1,25 +1,38 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Leilão Trabalho</a>
+      <a class="navbar-brand" style="font-weight: bold" href="#">Leilão Trabalho</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navPrincipal" aria-controls="navPrincipal" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navPrincipal">
         <ul class="navbar-nav ml-auto">
-          <!--TAGS USUARIO DESLOGADO-->
-          <li class="nav-item" *ngIf="token == null">
+          <!--ROTAS PARA USUARIO DESLOGADO-->
+          <li class="nav-item" *ngIf="token == ''">
             <a class="nav-link" [routerLink]="['/Cadastro']" >Cadastro</a>
           </li>
-          <li class="nav-item" *ngIf="token == null">
+
+          <li class="nav-item" *ngIf="token == ''">
             <a class="nav-link" [routerLink]="['/Login']" >Login</a>
           </li>
-          <!--TAGS USUARIO LOGADO-->
-          <li class="nav-item" *ngIf="token != null">
+          <!--FIM ROTAS PARA USUARIO DESLOGADO-->
+          
+          <!--INICIO ROTAS PARA USUARIO LOGADO-->
+          <li class="nav-item" *ngIf="token != ''">
+            <a class="nav-link" [routerLink]="['/Home']">Home</a>
+          </li>
+
+          <li class="nav-item" *ngIf="token != ''">
+            <a class="nav-link" [routerLink]="['/MeusLeiloes']">Meus Leilões</a>
+          </li>
+
+          <li class="nav-item" *ngIf="token != ''">
             <a class="nav-link" [routerLink]="['/CadastroProduto']">Cadastro Produto</a>
           </li>
-          <li class="nav-item" *ngIf="token != null">
+
+          <li class="nav-item" *ngIf="token != ''">
             <a class="nav-link" (click)="sair()">Sair</a>
           </li>
+          <!--FIM ROTAS PARA USUARIO LOGADO-->
         </ul>
       </div>
     </div>
